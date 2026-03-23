@@ -1,0 +1,233 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: #1a1a1a;
+}
+
+.canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+}
+
+.content-wrapper {
+  position: relative;
+  z-index: 10;
+  width: 100vw;
+}
+
+.hero-section {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Inter:wght@400;600;800&display=swap');
+
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 30px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 50;
+  font-family: 'Inter', sans-serif;
+  color: #316838;
+}
+
+.navbar .logo {
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+}
+
+.navbar .nav-links {
+  display: flex;
+  gap: 40px;
+}
+
+.navbar .nav-links a {
+  text-decoration: none;
+  color: #666;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.navbar .nav-links a:hover {
+  color: #5BE167;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 10%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.hero-content {
+  max-width: 800px;
+  pointer-events: auto;
+}
+
+.hero-content .subtitle {
+  color: #A2E02D;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  letter-spacing: 4px;
+  font-size: 1rem;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.hero-content h1 {
+  color: #316838;
+  font-family: 'Oswald', 'Impact', sans-serif;
+  font-weight: 700;
+  font-size: 6.5rem;
+  line-height: 0.95;
+  text-transform: uppercase;
+  margin: 0 0 24px 0;
+  letter-spacing: -1px;
+}
+
+.hero-content .description {
+  color: #bbb;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
+  margin-bottom: 48px;
+  font-weight: 400;
+}
+
+.cta-button {
+  background-color: #5BE167;
+  color: white;
+  border: none;
+  padding: 18px 36px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 10px 25px rgba(91, 225, 103, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(91, 225, 103, 0.4);
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.next-section {
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 15%;
+  color: #111;
+}
+
+.next-section .content {
+  text-align: left;
+  max-width: 450px;
+  padding: 0 20px;
+}
+
+.next-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 20px 5%;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+  
+  .navbar .nav-links {
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .navbar .nav-links a {
+    font-size: 0.85rem;
+  }
+
+  .hero-overlay {
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 50px; /* offset for wrapped navbar */
+  }
+
+  .hero-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 16px;
+  }
+
+  .hero-content .subtitle {
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+  }
+
+  .hero-content .description {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+
+  .cta-button {
+    padding: 14px 28px;
+    font-size: 0.95rem;
+  }
+
+  .next-section h2 {
+    font-size: 1.8rem;
+  }
+}
