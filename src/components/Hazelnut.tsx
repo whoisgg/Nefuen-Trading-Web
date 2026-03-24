@@ -1,7 +1,7 @@
 import { useMemo, useRef, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { RigidBody } from '@react-three/rapier'
-import { targetProgress } from './Scene'
+import { cameraProgress } from './Scene'
 import { useFBX, useTexture, Center } from '@react-three/drei'
 import * as THREE from 'three'
 import BlobShadow from './BlobShadow'
@@ -191,7 +191,6 @@ export default function Hazelnut({ position, type = 'kernel', rotation = [0, 0, 
     if (!meshGroupRef.current) return
 
     if (isHero) {
-      const isMobile = window.innerWidth < 768
       let scale = 0
       let x = position[0]
       let y = position[1]
@@ -200,27 +199,29 @@ export default function Hazelnut({ position, type = 'kernel', rotation = [0, 0, 
       let rotY = rotation[1]
       let rotZ = rotation[2]
 
-      // Determine final position based on targetProgress
-      if (targetProgress <= 0.333) {
-        const t = targetProgress / 0.333
+      const currentProgress = cameraProgress.current
+
+      // Determine final position based on camera progress
+      if (currentProgress <= 0.333) {
+        const t = Math.max(0, currentProgress / 0.333)
         const ease = t * t * (3 - 2 * t)
         
-        scale = THREE.MathUtils.lerp(0, isMobile ? 2.5 : 3.0, ease)
-        x = THREE.MathUtils.lerp(position[0], isMobile ? 0 : 4.5, ease)
-        y = THREE.MathUtils.lerp(position[1], isMobile ? 0.5 : 0.6, ease)
-        z = THREE.MathUtils.lerp(position[2], isMobile ? 3 : -1.4, ease)
+        scale = THREE.MathUtils.lerp(0, 3.0, ease)
+        x = THREE.MathUtils.lerp(position[0], 4.5, ease)
+        y = THREE.MathUtils.lerp(position[1], 0.6, ease)
+        z = THREE.MathUtils.lerp(position[2], -1.4, ease)
         
         // Rotate only on the Y axis continuously
         rotX = THREE.MathUtils.lerp(rotation[0], 0, ease)
         rotY = THREE.MathUtils.lerp(rotation[1], state.clock.elapsedTime * 0.5, ease)
         rotZ = THREE.MathUtils.lerp(rotation[2], 0, ease)
       } else {
-        scale = isMobile ? 2.5 : 3.0
-        x = isMobile ? 0 : 4.5
-        y = isMobile ? 0.5 : 0.6
-        z = isMobile ? 3 : -1.4
+        scale = 3.0
+        x = 4.5
+        y = 0.6
+        z = -1.4
         rotX = 0
-        rotY = (targetProgress - 0.333) * 2 + state.clock.elapsedTime * 0.5
+        rotY = (currentProgress - 0.333) * 2 + state.clock.elapsedTime * 0.5
         rotZ = 0
       }
 
@@ -229,7 +230,7 @@ export default function Hazelnut({ position, type = 'kernel', rotation = [0, 0, 
       meshGroupRef.current.rotation.set(rotX, rotY, rotZ)
     } else {
       // Shrink falling hazelnuts exponentially based on targetProgress
-      const shrinkFactor = Math.max(0, 1 - targetProgress * 6)
+      const shrinkFactor = Math.max(0, 1 - cameraProgress.current * 6)
       meshGroupRef.current.scale.setScalar(shrinkFactor)
     }
   })
