@@ -65,7 +65,10 @@ function App() {
   return (
     <>
       <div className="canvas-container">
-        <Canvas shadows camera={{ position: [0, 5, 15], fov: 45 }}>
+        <Canvas
+          shadows
+          camera={{ position: [0, 5, 15], fov: 45 }}
+        >
           <Scene />
         </Canvas>
       </div>
@@ -83,13 +86,19 @@ function App() {
             </div>
           </nav>
 
+          {/* Certification Badges — bottom right */}
+          <div className={`cert-badges ${showUI ? 'fade-in' : 'hidden'}`}>
+            <img src="/brc-food.png" alt="BRC Food Certificated" />
+            <img src="/globalgap.png" alt="Global G.A.P." />
+          </div>
+
           {/* Hero Overlay */}
           <div className={`hero-overlay ${showUI ? 'fade-in' : 'hidden'}`}>
             <div className="hero-content reveal-text">
               <p className="subtitle">NEFUEN TRADING</p>
-              <h1>ESPECIALISTAS EN<br/>AVELLANO EUROPEO</h1>
-              <p className="description">Liderazgo &middot; Calidad &middot; Exportación desde Chile</p>
-              <button className="cta-button">CONOCER SERVICIOS</button>
+              <h1>NEFUEN TRADING</h1>
+              <p className="description">HAZELNUTS FROM NORTH PATAGONIA</p>
+              <button className="cta-button">OUR SERVICES</button>
             </div>
           </div>
         </section>

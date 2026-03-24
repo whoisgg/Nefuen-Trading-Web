@@ -1,10 +1,19 @@
 import { useState, useEffect } from 'react'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import Hazelnut from './Hazelnut'
 import Floor from './Floor'
 import { Environment } from '@react-three/drei'
 import { Physics } from '@react-three/rapier'
+
+// Fixes PCFSoftShadowMap deprecation warning — must be set from inside Canvas context
+function ShadowConfig() {
+  const { gl } = useThree()
+  useEffect(() => {
+    gl.shadowMap.type = THREE.PCFShadowMap
+  }, [gl])
+  return null
+}
 
 function CameraRig() {
   useFrame((state) => {
@@ -58,9 +67,11 @@ export default function Scene() {
   const [hazelnuts, setHazelnuts] = useState<{ id: number; position: [number, number, number]; type: 'kernel' | 'inshell' }[]>([])
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    let interval: ReturnType<typeof setInterval> | null = null
+
+    const spawnNut = () => {
       setHazelnuts((prev) => {
-        const typeMix: 'kernel' | 'inshell' = Math.random() > 0.4 ? 'inshell' : 'kernel'
+        const typeMix: 'kernel' | 'inshell' = 'inshell' // Temporarily all inshell — kernel code preserved in Hazelnut.tsx
         return [
           ...prev,
           {
@@ -70,14 +81,35 @@ export default function Scene() {
           }
         ].slice(-100)
       })
-    }, 400)
-    
-    return () => clearInterval(interval)
+    }
+
+    const startInterval = () => {
+      if (!interval) interval = setInterval(spawnNut, 400)
+    }
+
+    const stopInterval = () => {
+      if (interval) { clearInterval(interval); interval = null }
+    }
+
+    // Pause when tab is hidden, resume when visible
+    const handleVisibility = () => {
+      if (document.hidden) stopInterval()
+      else startInterval()
+    }
+
+    document.addEventListener('visibilitychange', handleVisibility)
+    startInterval()
+
+    return () => {
+      stopInterval()
+      document.removeEventListener('visibilitychange', handleVisibility)
+    }
   }, [])
 
   return (
     <>
       <CameraRig />
+      <ShadowConfig />
       <color attach="background" args={['#ffffff']} />
       <fog attach="fog" args={['#ffffff', 10, 40]} />
       

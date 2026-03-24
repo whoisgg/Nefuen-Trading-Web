@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 210" width="160" height="210">
+  <rect width="160" height="210" rx="18" ry="18" fill="#8dc63f"/>
+  <!-- Checkmark -->
+  <polyline points="32,90 65,125 128,55" fill="none" stroke="white" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- BRC -->
+  <text x="80" y="150" font-family="Arial Black, sans-serif" font-weight="900" font-size="42" fill="white" text-anchor="middle">BRC</text>
+  <!-- FOOD -->
+  <text x="80" y="182" font-family="Arial Black, sans-serif" font-weight="900" font-size="34" fill="white" text-anchor="middle">FOOD</text>
+  <!-- CERTIFICATED -->
+  <text x="80" y="203" font-family="Arial, sans-serif" font-weight="700" font-size="13" fill="white" text-anchor="middle" letter-spacing="1">CERTIFICATED</text>
+</svg>

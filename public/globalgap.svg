@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 230" width="220" height="230">
+  <!-- G circle made of dots representing the icon ring -->
+  <g fill="#2c9e2c">
+    <!-- Main G letter circle path approximated with arc segments and dots -->
+    <!-- Outer ring dots - simulating the agriculture icons circling -->
+    <circle cx="110" cy="14" r="7"/>
+    <circle cx="138" cy="20" r="6"/>
+    <circle cx="162" cy="36" r="6"/>
+    <circle cx="179" cy="58" r="6"/>
+    <circle cx="188" cy="84" r="6"/>
+    <circle cx="186" cy="112" r="6"/>
+    <circle cx="175" cy="136" r="6"/>
+    <circle cx="157" cy="155" r="6"/>
+    <circle cx="134" cy="166" r="6"/>
+    <circle cx="109" cy="170" r="6"/>
+    <circle cx="83" cy="164" r="6"/>
+    <circle cx="60" cy="150" r="6"/>
+    <circle cx="42" cy="131" r="6"/>
+    <circle cx="32" cy="106" r="6"/>
+    <circle cx="32" cy="80" r="6"/>
+    <circle cx="42" cy="55" r="6"/>
+    <circle cx="61" cy="36" r="6"/>
+    <circle cx="85" cy="21" r="6"/>
+    <!-- Inner right horizontal bar of G -->
+    <rect x="108" y="84" width="62" height="16" rx="4"/>
+    <!-- Big G letter centre -->
+    <text x="108" y="148" font-family="Arial Black, sans-serif" font-weight="900" font-size="94" fill="#2c9e2c" text-anchor="middle" opacity="0.18">G</text>
+    <!-- Central G overlay clean -->
+    <text x="108" y="148" font-family="Arial Black, sans-serif" font-weight="900" font-size="82" fill="none" stroke="#2c9e2c" stroke-width="8" text-anchor="middle">G</text>
+  </g>
+  <!-- GLOBALGAP text -->
+  <text x="110" y="198" font-family="Arial Black, sans-serif" font-weight="900" font-size="22" fill="#2c9e2c" text-anchor="middle" letter-spacing="-0.5">
+    <tspan font-weight="900">GLOBAL</tspan><tspan fill="#5ab22a">G.A.P.</tspan>
+  </text>
+</svg>

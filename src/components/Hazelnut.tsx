@@ -4,7 +4,8 @@ import { useFBX, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
 
 // --- Procedural Inshell Texture Generator ---
-function createInshellTexture() {
+// hilumSize: 0.0 = tiny scar, 1.0 = full current size
+function createInshellTexture(hilumSize = 1.0) {
   const canvas = document.createElement('canvas')
   canvas.width = 1024
   canvas.height = 1024
@@ -14,7 +15,7 @@ function createInshellTexture() {
     // 1. Fill base gradient (Shells are lighter at base, darker near pointy tip)
     const gradient = context.createLinearGradient(0, 0, 0, 1024)
     gradient.addColorStop(0.1, '#3b1c0b')    // Dark, hard tip
-    gradient.addColorStop(0.5, '#733c1d')  // Warm rich middle
+    gradient.addColorStop(0.5, '#733c1d')    // Warm rich middle
     gradient.addColorStop(0.9, '#a3643b')    // Lighter, dustier base
 
     context.fillStyle = gradient
@@ -27,58 +28,59 @@ function createInshellTexture() {
        const length = 20 + Math.random() * 180
        
        context.globalAlpha = 0.02 + Math.random() * 0.05
-       // Mix of dark grooves and lighter scratches
        context.fillStyle = Math.random() > 0.6 ? '#1f0d04' : '#cca078'
-       
-       // Vertical-ish lines
        context.fillRect(x, y, 1 + Math.random() * 1.5, length)
     }
     
-    // 4. Add the massive rough spongy scar (hilum) at the poles to perfectly match the photo texture!
+    // 3. Draw hilum scar at top and bottom poles with variable coverage
     function drawHilum(isTop: boolean) {
+      // Scale the scar boundary: hilumSize 1.0 = yBase at 220/804, 0.0 = yBase at ~30/994 (tiny)
+      const maxReach = isTop ? 220 : 804
+      const minReach = isTop ? 30 : 994
+      const yBase = isTop
+        ? minReach + (maxReach - minReach) * hilumSize
+        : minReach + (maxReach - minReach) * hilumSize
+
       context!.globalAlpha = 1.0
       context!.filter = 'none'
       
-      context!.fillStyle = '#cdae82' // Pale tan / distinct beige color of the scar
+      context!.fillStyle = '#cdae82'
       context!.beginPath()
       context!.moveTo(0, isTop ? 0 : 1024)
       context!.lineTo(1024, isTop ? 0 : 1024)
       
-      // Jagged boundary wrapping around the sphere
       for(let x=1024; x>=0; x-=5) {
-         const yBase = isTop ? 220 : 804
          const variance = Math.sin(x*0.05)*25 + Math.random()*30
          const yNode = isTop ? yBase + variance : yBase - variance
          context!.lineTo(x, yNode)
       }
       context!.fill()
 
-      // 15,000 Spongy crater dots heavily clustered to simulate the rough dimpled texture shown in the photo
+      // Spongy crater dots inside the scar
+      const dotBand = isTop ? yBase + 80 : yBase - 80
       for(let i=0; i<15000; i++) {
          const x = Math.random() * 1024
-         const y = isTop ? Math.random() * 300 : 724 + Math.random() * 300
+         const y = isTop ? Math.random() * (dotBand + 30) : (dotBand - 30) + Math.random() * (1024 - (dotBand - 30))
          
-         const yBase = isTop ? 220 : 804
          const variance = Math.sin(x*0.05)*25
          const limit = isTop ? yBase + variance : yBase - variance
          const isValid = isTop ? y < limit : y > limit
          
          if (isValid) { 
            context!.globalAlpha = 0.5 + Math.random()*0.5
-           context!.fillStyle = Math.random() > 0.4 ? '#8f6f4a' : '#e3c6a1' // Dark divots and bright highlights
+           context!.fillStyle = Math.random() > 0.4 ? '#8f6f4a' : '#e3c6a1'
            context!.beginPath()
-           context!.arc(x, y, 1 + Math.random()*3.5, 0, Math.PI*2) // Larger radius to mimic deeply cratered sponge
+           context!.arc(x, y, 1 + Math.random()*3.5, 0, Math.PI*2)
            context!.fill()
          }
       }
       
-      // Dark boundary ring between the auburn shell and the pale scar
+      // Dark boundary ring
       context!.globalAlpha = 0.6
       context!.lineWidth = 6
       context!.strokeStyle = '#381b0a'
       context!.beginPath()
       for(let x=0; x<=1024; x+=8) {
-         const yBase = isTop ? 220 : 804
          const variance = Math.sin(x*0.05)*25
          const yNode = isTop ? yBase + variance : yBase - variance
          if(x===0) context!.moveTo(x, yNode)
@@ -87,20 +89,25 @@ function createInshellTexture() {
       context!.stroke()
     }
 
-    drawHilum(true)  // Cap the top pole with the massive spongy scar
-    drawHilum(false) // Cap the bottom pole as well guarantees alignment regardless of FBX UV rotation
+    drawHilum(true)
+    drawHilum(false)
   }
 
   const texture = new THREE.CanvasTexture(canvas)
   texture.colorSpace = THREE.SRGBColorSpace
-  // Prevent wrapping seams if possible
   texture.wrapS = THREE.ClampToEdgeWrapping
   texture.wrapT = THREE.ClampToEdgeWrapping
   return texture
 }
 
-// Generate the high-res texture EXACTLY ONCE globally to save memory across all 100 physical instances!
-const INSHELL_TEXTURE = createInshellTexture()
+// Pre-generate 4 texture variants with different hilum sizes to add natural visual variety
+// hilumSize: 1.0 = full large scar (as designed), 0.25 = quarter-sized scar
+const INSHELL_TEXTURES = [
+  createInshellTexture(0.8),   // Biggest
+  createInshellTexture(0.67),  // Medium large
+  createInshellTexture(0.53),  // Medium small
+  createInshellTexture(0.4),   // Smallest
+]
 
 interface HazelnutProps {
   position: [number, number, number]
@@ -115,6 +122,12 @@ export default function Hazelnut({ position, type = 'kernel' }: HazelnutProps) {
     '/models/hazelnut/1k_textures/BB_031_hazelnut_01_normal.jpg',
     '/models/hazelnut/1k_textures/BB_031_hazelnut_01_disp.jpg',
   ])
+
+  // Pick a random texture variant once per instance (stable via useMemo with no deps)
+  const inshellTex = useMemo(() => {
+    const idx = Math.floor(Math.random() * INSHELL_TEXTURES.length)
+    return INSHELL_TEXTURES[idx]
+  }, [])
 
   const cloned = useMemo(() => {
     colorMap.colorSpace = THREE.SRGBColorSpace
@@ -141,19 +154,19 @@ export default function Hazelnut({ position, type = 'kernel' }: HazelnutProps) {
         } else {
           // Inshell material: Photorealistic procedural Canvas texture!
           mesh.material = new THREE.MeshPhysicalMaterial({
-            map: INSHELL_TEXTURE, 
-            roughness: 0.4,       // Wood base shine
+            map: inshellTex,
+            roughness: 0.4,
             metalness: 0.02,
-            clearcoat: 0.8,       // Shell highly polished
+            clearcoat: 0.8,
             clearcoatRoughness: 0.15,
             normalMap: normalMap, 
-            normalScale: new THREE.Vector2(0.6, 0.6), // Subtle physical bumps, let texture gradient do the visual lifting
+            normalScale: new THREE.Vector2(0.6, 0.6),
           })
         }
       }
     })
     return clone
-  }, [fbx, colorMap, normalMap, dispMap, type])
+  }, [fbx, colorMap, normalMap, dispMap, type, inshellTex])
 
   return (
     <RigidBody 
