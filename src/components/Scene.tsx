@@ -33,7 +33,7 @@ function CameraRig() {
       radius = THREE.MathUtils.lerp(15, isMobile ? 12 : 8, ease)
       y = THREE.MathUtils.lerp(5, 2, ease)
       lookX = THREE.MathUtils.lerp(0, isMobile ? 0 : 3, ease)
-      lookY = THREE.MathUtils.lerp(0, isMobile ? 2 : 0, ease)
+      lookY = THREE.MathUtils.lerp(0, 0, ease)
     } else if (progress < 0.666) {
       const t = (progress - 0.333) / 0.333
       const ease = t * t * (3 - 2 * t)
@@ -41,7 +41,7 @@ function CameraRig() {
       radius = THREE.MathUtils.lerp(isMobile ? 12 : 8, isMobile ? 10 : 6, ease)
       y = THREE.MathUtils.lerp(2, 1, ease)
       lookX = THREE.MathUtils.lerp(isMobile ? 0 : 3, isMobile ? 0 : -3, ease)
-      lookY = THREE.MathUtils.lerp(isMobile ? 2 : 0, isMobile ? 2 : 0, ease)
+      lookY = THREE.MathUtils.lerp(0, 0, ease)
     } else {
       const t = (progress - 0.666) / 0.334
       const ease = t * t * (3 - 2 * t)
@@ -49,7 +49,7 @@ function CameraRig() {
       radius = THREE.MathUtils.lerp(isMobile ? 10 : 6, isMobile ? 16 : 14, ease)
       y = THREE.MathUtils.lerp(1, 8, ease)
       lookX = THREE.MathUtils.lerp(isMobile ? 0 : -3, 0, ease)
-      lookY = THREE.MathUtils.lerp(isMobile ? 2 : 0, 0, ease)
+      lookY = THREE.MathUtils.lerp(0, 0, ease)
     }
 
     state.camera.position.x = Math.sin(angle) * radius
