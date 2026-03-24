@@ -394,7 +394,7 @@ body {
   .hero-overlay {
     padding-left: 5%;
     padding-right: 5%;
-    padding-top: 60px;
+    padding-top: 40px;
   }
 
   .hero-content {
@@ -424,7 +424,7 @@ body {
   }
 
   .cert-badges {
-    bottom: 16px;
+    bottom: 30px;
     right: 4%;
     gap: 10px;
   }
