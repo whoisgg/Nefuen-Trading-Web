@@ -164,57 +164,111 @@ body {
   background-color: transparent;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  padding-right: 15%;
   color: #111;
 }
 
-.next-section .content {
+.next-section.right {
+  justify-content: flex-end;
+  padding-right: 15%;
+}
+.next-section.right .content {
   text-align: left;
+}
+
+.next-section.left {
+  justify-content: flex-start;
+  padding-left: 15%;
+}
+.next-section.left .content {
+  text-align: left;
+}
+
+.next-section.center {
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 8%;
+}
+.next-section.center .content {
+  text-align: center;
+}
+
+.next-section .content {
   max-width: 450px;
   padding: 0 20px;
 }
 
-.next-section h2 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-  font-weight: 800;
-  letter-spacing: -1px;
+.reveal-text {
+  opacity: 0;
+  visibility: hidden;
 }
 
-/* Mobile Responsive */
+.next-section h2 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  font-weight: 800;
+  letter-spacing: -2px;
+  color: #316838;
+}
+
+.next-section p {
+  font-size: 1.25rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Tablet Responsive (2-column scaled) */
+@media (max-width: 1024px) {
+  .hero-content h1 {
+    font-size: 5rem;
+  }
+  .next-section .content {
+    max-width: 400px;
+  }
+  .next-section h2 {
+    font-size: 2.5rem;
+  }
+  .navbar {
+    padding: 24px 5%;
+  }
+}
+
+/* Mobile Responsive (Single column) */
 @media (max-width: 768px) {
   .navbar {
     padding: 20px 5%;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
   }
   
   .navbar .nav-links {
-    gap: 15px;
+    gap: 12px;
     flex-wrap: wrap;
     justify-content: center;
   }
 
   .navbar .nav-links a {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
   }
 
   .hero-overlay {
     padding-left: 5%;
     padding-right: 5%;
-    padding-top: 50px; /* offset for wrapped navbar */
+    padding-top: 80px;
+  }
+
+  .hero-content {
+    width: 100%;
   }
 
   .hero-content h1 {
-    font-size: 3.5rem;
+    font-size: clamp(2rem, 11.5vw, 3.5rem);
     margin-bottom: 16px;
+    line-height: 1;
+    word-wrap: break-word;
   }
 
   .hero-content .subtitle {
     font-size: 0.85rem;
-    letter-spacing: 2px;
   }
 
   .hero-content .description {
@@ -227,7 +281,23 @@ body {
     font-size: 0.95rem;
   }
 
+  /* Single Column Layout */
+  .next-section.right, .next-section.left, .next-section.center {
+    justify-content: center;
+    align-items: flex-start;
+    padding: 15vh 5% 0 5%;
+  }
+
+  .next-section.right .content, .next-section.left .content, .next-section.center .content {
+    text-align: left;
+    max-width: 100%;
+  }
+
   .next-section h2 {
-    font-size: 1.8rem;
+    font-size: clamp(1.8rem, 8vw, 2.8rem);
+  }
+  
+  .next-section p {
+    font-size: 1.05rem;
   }
 }

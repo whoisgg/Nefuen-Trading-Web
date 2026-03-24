@@ -12,34 +12,64 @@ function CameraRig() {
     const maxScroll = Math.max(1, document.body.scrollHeight - window.innerHeight)
     const progress = Math.min(scrollY / maxScroll, 1)
 
-    // Cinematic transition: 
-    // Orbit 90 degrees, zoom in from radius 15 to 8, and drop the height.
-    const angle = progress * Math.PI * 0.5 
-    const radius = THREE.MathUtils.lerp(15, 8, progress)
+    const isMobile = window.innerWidth < 768;
+
+    let angle, radius, y, lookX, lookY;
+    
+    if (progress < 0.333) {
+      // Hero to Section 1
+      const t = progress / 0.333
+      const ease = t * t * (3 - 2 * t)
+      angle = THREE.MathUtils.lerp(0, Math.PI * 0.5, ease)
+      radius = THREE.MathUtils.lerp(15, isMobile ? 12 : 8, ease)
+      y = THREE.MathUtils.lerp(5, 2, ease)
+      lookX = THREE.MathUtils.lerp(0, isMobile ? 0 : 3, ease)
+      lookY = THREE.MathUtils.lerp(0, isMobile ? 2 : 0, ease)
+    } else if (progress < 0.666) {
+      // Section 1 to Section 2
+      const t = (progress - 0.333) / 0.333
+      const ease = t * t * (3 - 2 * t)
+      angle = THREE.MathUtils.lerp(Math.PI * 0.5, Math.PI, ease)
+      radius = THREE.MathUtils.lerp(isMobile ? 12 : 8, isMobile ? 10 : 6, ease)
+      y = THREE.MathUtils.lerp(2, 1, ease)
+      lookX = THREE.MathUtils.lerp(isMobile ? 0 : 3, isMobile ? 0 : -3, ease)
+      lookY = THREE.MathUtils.lerp(isMobile ? 2 : 0, isMobile ? 2 : 0, ease)
+    } else {
+      // Section 2 to Section 3
+      const t = (progress - 0.666) / 0.334
+      const ease = t * t * (3 - 2 * t)
+      angle = THREE.MathUtils.lerp(Math.PI, Math.PI * 1.5, ease)
+      radius = THREE.MathUtils.lerp(isMobile ? 10 : 6, isMobile ? 16 : 14, ease)
+      y = THREE.MathUtils.lerp(1, 8, ease)
+      lookX = THREE.MathUtils.lerp(isMobile ? 0 : -3, 0, ease)
+      lookY = THREE.MathUtils.lerp(isMobile ? 2 : 0, 0, ease)
+    }
 
     state.camera.position.x = Math.sin(angle) * radius
     state.camera.position.z = Math.cos(angle) * radius
-    state.camera.position.y = THREE.MathUtils.lerp(5, 2, progress)
+    state.camera.position.y = y
     
-    // Look slightly to the right as we scroll down so the hazelnuts are framed on the left!
-    const lookX = THREE.MathUtils.lerp(0, 3, progress)
-    state.camera.lookAt(lookX, 0, 0)
+    state.camera.lookAt(lookX, lookY, 0)
   })
   return null
 }
 
 export default function Scene() {
-  const [hazelnuts, setHazelnuts] = useState<{ id: number; position: [number, number, number] }[]>([])
+  const [hazelnuts, setHazelnuts] = useState<{ id: number; position: [number, number, number]; type: 'kernel' | 'inshell' }[]>([])
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setHazelnuts((prev) => [
-        ...prev,
-        {
-          id: Date.now(),
-          position: [(Math.random() - 0.5) * 4, 10 + Math.random() * 2, (Math.random() - 0.5) * 4] as [number, number, number]
-        }
-      ].slice(-100))
+      setHazelnuts((prev) => {
+        const typeMix: 'kernel' | 'inshell' = Math.random() > 0.4 ? 'inshell' : 'kernel'
+        return [
+          ...prev,
+          {
+            id: Date.now(),
+            position: [(Math.random() - 0.5) * 4, 10 + Math.random() * 2, (Math.random() - 0.5) * 4] as [number, number, number],
+            type: typeMix
+          }
+        ].slice(-100)
+      })
     }, 400)
     
     return () => clearInterval(interval)
@@ -69,7 +99,7 @@ export default function Scene() {
       <Physics>
         <Floor />
         {hazelnuts.map((nut) => (
-          <Hazelnut key={nut.id} position={nut.position} />
+          <Hazelnut key={nut.id} position={nut.position} type={nut.type} />
         ))}
       </Physics>
     </>

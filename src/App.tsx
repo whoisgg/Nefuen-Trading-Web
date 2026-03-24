@@ -4,6 +4,11 @@ import Scene from './components/Scene'
 import Lenis from 'lenis'
 import 'lenis/dist/lenis.css'
 import './index.css'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGSAP } from '@gsap/react'
+
+gsap.registerPlugin(ScrollTrigger)
 
 function App() {
   const [showUI, setShowUI] = useState(false)
@@ -16,6 +21,7 @@ function App() {
 
     function raf(time: number) {
       lenis.raf(time)
+      ScrollTrigger.update() // Sync GSAP with Lenis
       requestAnimationFrame(raf)
     }
     requestAnimationFrame(raf)
@@ -34,6 +40,27 @@ function App() {
       lenis.destroy()
     }
   }, [])
+
+  useGSAP(() => {
+    if (!showUI) return;
+    
+    gsap.utils.toArray('.reveal-text').forEach((element: any) => {
+      gsap.fromTo(element, 
+        { y: 60, autoAlpha: 0 },
+        {
+          y: 0, 
+          autoAlpha: 1, 
+          duration: 1.2, 
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: element,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      )
+    })
+  }, [showUI])
 
   return (
     <>
@@ -58,7 +85,7 @@ function App() {
 
           {/* Hero Overlay */}
           <div className={`hero-overlay ${showUI ? 'fade-in' : 'hidden'}`}>
-            <div className="hero-content">
+            <div className="hero-content reveal-text">
               <p className="subtitle">NEFUEN TRADING</p>
               <h1>ESPECIALISTAS EN<br/>AVELLANO EUROPEO</h1>
               <p className="description">Liderazgo &middot; Calidad &middot; Exportación desde Chile</p>
@@ -68,12 +95,32 @@ function App() {
         </section>
 
         {showUI && (
-          <section className="next-section fade-in">
-            <div className="content">
-              <h2>Siguiente Sección</h2>
-              <p>The 3D scene effortlessly stays pinned to the background and rotates around the hazelnuts as you scroll down!</p>
-            </div>
-          </section>
+          <>
+            {/* Section 1 */}
+            <section className="next-section right">
+              <div className="content reveal-text">
+                <h2>Cosecha Premium</h2>
+                <p>Nuestras avellanas son seleccionadas a mano, garantizando el mejor calibre y sabor del mercado global. Un estándar de excelencia sin compromisos.</p>
+              </div>
+            </section>
+            
+            {/* Section 2 */}
+            <section className="next-section left">
+              <div className="content reveal-text">
+                <h2>Procesos Sostenibles</h2>
+                <p>Implementamos agricultura de precisión y utilizamos energía 100% limpia para reducir al máximo nuestra huella de carbono, protegiendo el ecosistema nativo.</p>
+              </div>
+            </section>
+            
+            {/* Section 3 */}
+            <section className="next-section center">
+              <div className="content reveal-text">
+                <h2 style={{ fontSize: '4rem', marginBottom: '20px' }}>Alcance Global</h2>
+                <p style={{ fontSize: '1.25rem', color: '#666', marginBottom: '40px' }}>Desde los fértiles valles del sur de Chile hasta los paladares y mercados más exigentes de Europa, Asia y Norteamérica.</p>
+                <button className="cta-button">CONTÁCTANOS</button>
+              </div>
+            </section>
+          </>
         )}
       </main>
     </>
