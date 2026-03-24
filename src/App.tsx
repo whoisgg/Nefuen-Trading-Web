@@ -218,10 +218,23 @@ function App() {
 
         {/* Section 1 */}
         <section className="fullpage-section" ref={(el) => addSectionRef(el, 1)}>
-          <div className="section-content right">
-            <div className="content reveal-text">
-              <h2>Cosecha Premium</h2>
-              <p>Nuestras avellanas son seleccionadas a mano, garantizando el mejor calibre y sabor del mercado global. Un estándar de excelencia sin compromisos.</p>
+          <div className="section-content left">
+            <div className="content reveal-text tech-specs">
+              <div className="spec-header">
+                <span className="spec-subtitle" style={{ fontSize: '1rem' }}>01</span>
+              </div>
+              <h2 className="spec-title">LIMPIEZA Y<br/>SECADO</h2>
+              
+              <div className="spec-divider"></div>
+              
+              <div className="spec-block">
+                <p>Recibimos el fruto desde haciendas certificadas. Pesaje, muestreo y análisis de humedad garantizan trazabilidad total.</p>
+                <ul className="spec-list">
+                  <li>Control peso y humedad</li>
+                  <li>Muestras trazables</li>
+                  <li>Asignación de lote</li>
+                </ul>
+              </div>
             </div>
           </div>
         </section>

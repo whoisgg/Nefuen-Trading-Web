@@ -1,6 +1,7 @@
 import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
+import { targetProgress } from './Scene'
 
 const FLOOR_Y = -0.5
 const MAX_HEIGHT = 12
@@ -55,8 +56,9 @@ export default function BlobShadow({ trackerRef }: { trackerRef: React.RefObject
     const scale = THREE.MathUtils.lerp(MAX_SCALE, MIN_SCALE, t)
     meshRef.current.scale.set(scale, scale, 1)
 
-    const opacity = THREE.MathUtils.lerp(MAX_OPACITY, MIN_OPACITY, t)
-    ;(meshRef.current.material as THREE.MeshBasicMaterial).opacity = opacity
+    const baseOpacity = THREE.MathUtils.lerp(MAX_OPACITY, MIN_OPACITY, t)
+    const fadeOutFactor = Math.max(0, 1 - targetProgress * 6)
+    ;(meshRef.current.material as THREE.MeshBasicMaterial).opacity = baseOpacity * fadeOutFactor
 
     meshRef.current.position.set(_worldPos.x, FLOOR_Y + 0.01, _worldPos.z)
   })

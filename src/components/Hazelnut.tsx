@@ -1,6 +1,8 @@
 import { useMemo, useRef, useEffect } from 'react'
+import { useFrame } from '@react-three/fiber'
 import { RigidBody } from '@react-three/rapier'
-import { useFBX, useTexture } from '@react-three/drei'
+import { targetProgress } from './Scene'
+import { useFBX, useTexture, Center } from '@react-three/drei'
 import * as THREE from 'three'
 import BlobShadow from './BlobShadow'
 
@@ -115,10 +117,12 @@ interface HazelnutProps {
   type?: 'kernel' | 'inshell'
   rotation?: [number, number, number]
   angularVelocity?: [number, number, number]
+  isHero?: boolean
 }
 
-export default function Hazelnut({ position, type = 'kernel', rotation = [0, 0, 0], angularVelocity = [0, 0, 0] }: HazelnutProps) {
+export default function Hazelnut({ position, type = 'kernel', rotation = [0, 0, 0], angularVelocity = [0, 0, 0], isHero = false }: HazelnutProps) {
   const rigidBodyRef = useRef<any>(null)
+  const meshGroupRef = useRef<THREE.Group>(null)
   const fbx = useFBX('/models/hazelnut/BB_031_huzelnut.fbx')
   
   const [colorMap, normalMap, dispMap] = useTexture([
@@ -178,10 +182,70 @@ export default function Hazelnut({ position, type = 'kernel', rotation = [0, 0, 
   // Apply initial angular velocity after physics body is created
   useEffect(() => {
     const rb = rigidBodyRef.current
-    if (rb) {
+    if (rb && !isHero) {
       rb.setAngvel({ x: angularVelocity[0], y: angularVelocity[1], z: angularVelocity[2] }, true)
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isHero, angularVelocity])
+
+  useFrame((state) => {
+    if (!meshGroupRef.current) return
+
+    if (isHero) {
+      const isMobile = window.innerWidth < 768
+      let scale = 0
+      let x = position[0]
+      let y = position[1]
+      let z = position[2]
+      let rotX = rotation[0]
+      let rotY = rotation[1]
+      let rotZ = rotation[2]
+
+      // Determine final position based on targetProgress
+      if (targetProgress <= 0.333) {
+        const t = targetProgress / 0.333
+        const ease = t * t * (3 - 2 * t)
+        
+        scale = THREE.MathUtils.lerp(0, isMobile ? 2.5 : 3.0, ease)
+        x = THREE.MathUtils.lerp(position[0], isMobile ? 0 : 4.5, ease)
+        y = THREE.MathUtils.lerp(position[1], isMobile ? 0.5 : 0.6, ease)
+        z = THREE.MathUtils.lerp(position[2], isMobile ? 3 : -1.4, ease)
+        
+        // Rotate only on the Y axis continuously
+        rotX = THREE.MathUtils.lerp(rotation[0], 0, ease)
+        rotY = THREE.MathUtils.lerp(rotation[1], state.clock.elapsedTime * 0.5, ease)
+        rotZ = THREE.MathUtils.lerp(rotation[2], 0, ease)
+      } else {
+        scale = isMobile ? 2.5 : 3.0
+        x = isMobile ? 0 : 4.5
+        y = isMobile ? 0.5 : 0.6
+        z = isMobile ? 3 : -1.4
+        rotX = 0
+        rotY = (targetProgress - 0.333) * 2 + state.clock.elapsedTime * 0.5
+        rotZ = 0
+      }
+
+      meshGroupRef.current.scale.setScalar(scale)
+      meshGroupRef.current.position.set(x, y, z)
+      meshGroupRef.current.rotation.set(rotX, rotY, rotZ)
+    } else {
+      // Shrink falling hazelnuts exponentially based on targetProgress
+      const shrinkFactor = Math.max(0, 1 - targetProgress * 6)
+      meshGroupRef.current.scale.setScalar(shrinkFactor)
+    }
+  })
+
+  const content = (
+    <group ref={meshGroupRef}>
+      <group ref={trackerRef} />
+      <Center>
+        <primitive object={cloned} scale={type === 'inshell' ? 0.28 : 0.1} />
+      </Center>
+    </group>
+  )
+
+  if (isHero) {
+    return <group position={position}>{content}</group>
+  }
 
   return (
     <>
@@ -194,8 +258,7 @@ export default function Hazelnut({ position, type = 'kernel', rotation = [0, 0, 
         friction={type === 'inshell' ? 0.3 : 0.8}
         angularDamping={0.3}
       >
-        <group ref={trackerRef} />
-        <primitive object={cloned} scale={type === 'inshell' ? 0.28 : 0.1} />
+        {content}
       </RigidBody>
       <BlobShadow trackerRef={trackerRef} />
     </>

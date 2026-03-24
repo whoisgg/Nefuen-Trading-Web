@@ -7,7 +7,7 @@ import { Environment } from '@react-three/drei'
 import { Physics } from '@react-three/rapier'
 
 // Shared progress value — updated by App via window event
-let targetProgress = 0
+export let targetProgress = 0
 window.addEventListener('section-change', ((e: CustomEvent) => {
   targetProgress = e.detail.progress
 }) as EventListener)
@@ -109,7 +109,7 @@ export default function Scene() {
       <CameraRig />
       <color attach="background" args={['#ffffff']} />
       <fog attach="fog" args={['#ffffff', 10, 40]} />
-
+      
       <directionalLight
         position={[4, 10, 2]}
         intensity={2.8}
@@ -117,6 +117,7 @@ export default function Scene() {
 
       <Environment preset="studio" />
 
+      <Hazelnut position={[0, 0, 0]} isHero={true} type="inshell" />
       <Physics>
         <Floor />
         {hazelnuts.map((nut) => (

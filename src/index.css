@@ -315,6 +315,113 @@ body {
 }
 
 /* ═══════════════════════════════════════
+   TECH SPECS (SECTION 1)
+   ═══════════════════════════════════════ */
+
+.tech-specs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.spec-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: -10px;
+}
+
+.dot-indicator {
+  width: 6px;
+  height: 6px;
+  background-color: #ff5722;
+  border-radius: 50%;
+}
+
+.spec-subtitle {
+  color: #ff5722;
+  font-family: var(--font-heading);
+  font-size: 0.70rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.spec-title {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 5vw, 4.5rem) !important;
+  font-weight: 800 !important;
+  line-height: 0.9 !important;
+  color: var(--text-primary) !important;
+  text-transform: uppercase;
+  margin: 0 !important;
+  letter-spacing: -0.03em !important;
+}
+
+.spec-divider {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(0,0,0,0.1);
+  margin: 8px 0;
+}
+
+.spec-block h3 {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 2px 0;
+  line-height: 1;
+}
+
+.spec-block h3 span {
+  font-size: 1.1rem;
+}
+
+.spec-block h4 {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin: 0 0 8px 0;
+  letter-spacing: 0.05em;
+}
+
+.spec-block p {
+  font-family: var(--font-body);
+  font-size: 0.85rem !important;
+  color: var(--text-muted) !important;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 320px;
+}
+
+.spec-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0 0;
+}
+
+.spec-list li {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.spec-list li::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: #ff5722;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+/* ═══════════════════════════════════════
    SECTION DOTS — fixed right side
    ═══════════════════════════════════════ */
 
