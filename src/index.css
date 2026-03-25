@@ -536,19 +536,23 @@ body {
   }
 
   .hero-overlay {
-    padding-left: 5%;
-    padding-right: 5%;
-    padding-top: 40px;
+    padding: 18vh 5% 25vh;
+    align-items: stretch;
   }
 
   .hero-content {
     width: 100%;
     margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 100%;
   }
 
   .hero-content h1 {
     font-size: clamp(2.2rem, 10vw, 3rem);
-    margin-bottom: 10px;
+    margin-bottom: 2px;
     line-height: 0.95;
   }
 
@@ -559,10 +563,11 @@ body {
 
   .hero-content .description {
     font-size: 0.85rem;
-    margin-bottom: 20px;
+    margin-bottom: 0;
   }
 
-  .cta-button {
+  .hero-content .cta-button {
+    margin-top: auto;
     padding: 12px 24px;
     font-size: 0.75rem;
   }
@@ -854,7 +859,7 @@ body {
 
 .frame-text-heading {
   font-family: var(--font-heading);
-  font-size: clamp(2.8rem, 3.5vw, 5rem);
+  font-size: clamp(1.8rem, 3.2vw, 2.8rem);
   font-weight: 800;
   color: var(--text-primary);
   line-height: 0.92;
