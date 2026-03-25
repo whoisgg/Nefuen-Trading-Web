@@ -604,12 +604,50 @@ body {
     height: 7px;
   }
 
-  /* Permanent fix: left-aligned content on mobile goes to top to avoid hazelnut overlap */
+  /* Mobile services section: title at top, paragraph beside 3D nut */
   .section-content.left {
-    align-items: flex-start;
-    padding-top: 90px;
-    padding-left: 5%;
-    padding-right: 5%;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 0 5%;
+    text-align: center;
+  }
+
+  .section-content.left .content {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .section-content.left .services-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+  }
+
+  .section-content.left .services-title {
+    padding-top: 25vh;
+    text-align: left;
+  }
+
+  .section-content.left .services-title .subtitle {
+    display: none;
+  }
+
+  .section-content.left .services-title h2 {
+    font-size: clamp(3.2rem, 14vw, 5rem) !important;
+    max-width: 250px;
+  }
+
+  .section-content.left .services-body {
+    position: absolute;
+    top: 55%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 55%;
+    text-align: left;
+    margin-top: 0 !important;
+    font-size: 1.15rem !important;
+    line-height: 1.7 !important;
   }
 
   .transition-content {
