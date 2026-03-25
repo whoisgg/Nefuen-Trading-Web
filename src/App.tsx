@@ -254,7 +254,8 @@ function App() {
         <section className="fullpage-section" ref={(el) => addSectionRef(el, 0)}>
           <div className={`cert-badges ${showUI ? 'fade-in' : 'hidden'}`}>
             <img src="/brc-food.png" alt="BRC Food Certificated" />
-            <img src="/globalgap.png" alt="Global G.A.P." />
+            <img src="/brcgs-food-safety.png" alt="BRCGS Food Safety Certificated" className="cert-brcgs" />
+            <img src="/smeta.png" alt="SMETA" />
           </div>
 
           <div className={`hero-overlay ${showUI ? 'fade-in' : 'hidden'}`}>

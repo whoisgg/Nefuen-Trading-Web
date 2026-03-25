@@ -181,10 +181,14 @@ body {
 }
 
 .cert-badges img {
-  height: 100px;
+  height: 80px;
   width: auto;
   opacity: 0.9;
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.06));
+}
+
+.cert-badges img.cert-brcgs {
+  height: 60px;
 }
 
 /* ═══════════════════════════════════════
