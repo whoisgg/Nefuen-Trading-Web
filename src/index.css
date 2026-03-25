@@ -508,7 +508,7 @@ body {
   }
 
   /* BRCGS logo fix: keep it slightly smaller than the 32px others to balance visual weight */
-  .cert-badges .cert-brcgs {
+  .cert-badges img.cert-brcgs {
     height: 28px;
   }
 }
@@ -574,7 +574,12 @@ body {
   }
 
   .cert-badges img {
-    height: 45px;
+    height: 55px;
+  }
+
+  /* BRCGS logo is landscape — reduce to match perceived size of square logos */
+  .cert-badges img.cert-brcgs {
+    height: 30px;
   }
 
   /* Sections on mobile — text at bottom for right-aligned */
