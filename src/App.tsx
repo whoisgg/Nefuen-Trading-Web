@@ -255,6 +255,8 @@ function App() {
           <div className={`cert-badges ${showUI ? 'fade-in' : 'hidden'}`}>
             <img src="/brc-food.png" alt="BRC Food Certificated" />
             <img src="/globalgap.png" alt="Global G.A.P." />
+            <img src="/certifications/smeta.png" alt="SMETA" />
+            <img src="/certifications/brcgs.png" alt="BRCGS" />
           </div>
 
           <div className={`hero-overlay ${showUI ? 'fade-in' : 'hidden'}`}>
