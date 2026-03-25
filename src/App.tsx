@@ -183,8 +183,13 @@ function App() {
         const scrollContainer = document.querySelector('.gallery-scroll-container')
         if (scrollContainer) {
           const { scrollTop, scrollHeight, clientHeight } = scrollContainer
-          if (deltaY > threshold && Math.abs((scrollTop + clientHeight) - scrollHeight) > 2) return
-          if (deltaY < -threshold && scrollTop > 2) return
+          const isAtTop = scrollTop <= 5
+          const isAtBottom = Math.abs((scrollTop + clientHeight) - scrollHeight) <= 5
+          
+          // If swiping up but NOT at bottom, stay in gallery
+          if (deltaY > threshold && !isAtBottom) return
+          // If swiping down but NOT at top, stay in gallery
+          if (deltaY < -threshold && !isAtTop) return
         }
       }
 
