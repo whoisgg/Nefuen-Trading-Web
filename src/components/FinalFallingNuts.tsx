@@ -22,7 +22,7 @@ export default function FinalFallingNuts() {
     const spawnLoop = () => {
       if (!isActive) return
       
-      if (cameraProgress.current > 0.5) {
+      if (cameraProgress.current > 0.35) {
         setHazelnuts((prev) => {
           return [
             ...prev,

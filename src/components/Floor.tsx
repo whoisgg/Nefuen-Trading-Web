@@ -8,7 +8,9 @@ export default function Floor() {
   
   useFrame(() => {
     if (rbRef.current) {
-      if (cameraProgress.current > 0.4) {
+      const p = cameraProgress.current
+      // Hide floor only during Gallery section so nuts fall through; bring it back for Hero and Final
+      if (p > 0.4 && p < 0.65) {
         rbRef.current.setNextKinematicTranslation({ x: 0, y: -100, z: 0 })
       } else {
         rbRef.current.setNextKinematicTranslation({ x: 0, y: 0, z: 0 })
