@@ -1,30 +1,20 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 
-const FRAME_DIR = '/frames/9e698adde712007667f82f37aeac5688'
-
-function frameSrc(index: number): string {
-  const num = String(index + 1).padStart(3, '0')
-  return `${FRAME_DIR}/ffout${num}.gif`
-}
-
-const LEFT_ITEMS = [
+const ITEMS = [
   {
     label: 'PROCESO 01',
     heading: 'Cosecha\ny Selección',
     body: 'Recolectamos avellanas en su punto óptimo de madurez en los valles del norte de la Patagonia.',
   },
   {
-    label: 'PROCESO 03',
-    heading: 'Descascarado\ny Calibrado',
-    body: 'Clasificación por calibre y peso que garantiza uniformidad para los estándares de exportación.',
-  },
-]
-
-const RIGHT_ITEMS = [
-  {
     label: 'PROCESO 02',
     heading: 'Secado\ny Limpieza',
     body: 'Secado controlado para alcanzar la humedad ideal, seguido de limpieza profunda.',
+  },
+  {
+    label: 'PROCESO 03',
+    heading: 'Descascarado\ny Calibrado',
+    body: 'Clasificación por calibre y peso que garantiza uniformidad para los estándares de exportación.',
   },
   {
     label: 'PROCESO 04',
@@ -33,87 +23,63 @@ const RIGHT_ITEMS = [
   },
 ]
 
-// Left column: item changes at frame 40 (items 1→3)
-// Right column: item enters at frame 20, changes at frame 60 (items 2→4)
-function getLeftActive(frameIndex: number): number {
-  return Math.min(Math.floor(frameIndex / 40), LEFT_ITEMS.length - 1)
-}
-function getRightActive(frameIndex: number): number {
-  if (frameIndex < 20) return -1   // not yet visible (shifted down)
-  return Math.min(Math.floor((frameIndex - 20) / 40), RIGHT_ITEMS.length - 1)
-}
-
-interface FrameSequenceProps {
-  frameIndex: number
-  totalFrames: number
-}
-
-export default function FrameSequence({ frameIndex, totalFrames }: FrameSequenceProps) {
-  const imgRef = useRef<HTMLImageElement>(null)
-  const cachedRef = useRef<HTMLImageElement[]>([])
-
-  useEffect(() => {
-    cachedRef.current = Array.from({ length: totalFrames }, (_, i) => {
-      const img = new Image()
-      img.src = frameSrc(i)
-      return img
-    })
-  }, [totalFrames])
-
-  useEffect(() => {
-    if (imgRef.current) imgRef.current.src = frameSrc(frameIndex)
-  }, [frameIndex, totalFrames])
-
-  const progress = totalFrames > 1 ? frameIndex / (totalFrames - 1) : 0
-  const isLast = frameIndex === totalFrames - 1
-
-  const leftActive = getLeftActive(frameIndex)
-  const rightActive = getRightActive(frameIndex)
-
-  const renderSlider = (items: typeof LEFT_ITEMS, activeIndex: number) => (
-    <div className="frame-text-slider">
-      {items.map((item, i) => {
-        const offset = i - activeIndex
-        return (
-          <div
-            key={item.label}
-            className="frame-text-slide"
-            style={{ transform: `translateY(${offset * 100}%)` }}
-          >
-            <p className="frame-text-label">{item.label}</p>
-            <h2 className="frame-text-heading">
-              {item.heading.split('\n').map((line, j) => (
-                <span key={j}>{line}<br /></span>
-              ))}
-            </h2>
-            <p className="frame-text-body">{item.body}</p>
-          </div>
-        )
-      })}
-    </div>
-  )
+export default function FrameSequence() {
+  const containerRef = useRef<HTMLDivElement>(null)
 
   return (
-    <div className="frame-fullscreen">
-      <img
-        ref={imgRef}
-        src={frameSrc(0)}
-        alt="Animation frame"
-        className="frame-sequence-img"
-        draggable={false}
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+      <div className="gallery-fixed-title">
+        <h2 style={{ fontSize: 'clamp(3rem, 5vw, 4.5rem)', color: 'var(--green-brand)', textTransform: 'uppercase', fontWeight: 800, lineHeight: 0.9 }}>
+          OUR SERVICES
+        </h2>
+      </div>
+
+      <div 
+        className="gallery-scroll-container" 
+        ref={containerRef}
+      style={{ 
+        height: '100%', 
+        width: '100%', 
+        overflowY: 'auto', 
+        overflowX: 'hidden',
+        background: 'transparent',
+        scrollSnapType: 'y mandatory'
+      }}
+    >
+      <div style={{ pointerEvents: 'none', position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 100%)', zIndex: -1 }} />
+
+      {ITEMS.map((item, i) => (
+        <div key={i} className={`gallery-item-wrapper ${i % 2 === 0 ? 'align-left' : 'align-right'}`}>
+          <div 
+            className="content" 
+            style={{ 
+              maxWidth: '480px', 
+              backgroundColor: 'rgba(255, 255, 255, 0.75)', 
+              padding: '50px', 
+              borderRadius: '24px', 
+              backdropFilter: 'blur(16px)',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.06)',
+            }}
+          >
+            <p className="frame-text-label" style={{ color: '#ff5722', marginBottom: '16px', fontWeight: 800 }}>{item.label}</p>
+            <h2 className="frame-text-heading" style={{ fontSize: 'clamp(2.4rem, 4vw, 3.8rem)', color: '#2a3b2c', marginBottom: '20px', lineHeight: 1.1, whiteSpace: 'pre-line' }}>
+              {item.heading}
+            </h2>
+            <p className="frame-text-body" style={{ color: '#555', fontSize: '1.05rem', lineHeight: 1.7 }}>{item.body}</p>
+          </div>
+        </div>
+      ))}
+
+      {/* Spacer to require a deliberate scroll-past to exit the gallery */}
+      <div 
+        style={{ 
+          height: '40vh', 
+          width: '100%', 
+          flexShrink: 0,
+          scrollSnapAlign: 'end'
+        }} 
       />
-
-      {/* Two side-by-side sliders: left (1→3) and right (2→4) */}
-      <div className="frame-sliders-row">
-        {renderSlider(LEFT_ITEMS, leftActive)}
-        {renderSlider(RIGHT_ITEMS, rightActive)}
-      </div>
-
-      <div className="frame-progress-bar">
-        <div className="frame-progress-fill" style={{ width: `${progress * 100}%` }} />
-      </div>
-
-      {isLast && <div className="frame-scroll-hint">Scroll to continue ↓</div>}
+    </div>
     </div>
   )
 }

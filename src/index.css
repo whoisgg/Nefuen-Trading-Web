@@ -625,11 +625,53 @@ body {
 .transition-overlay {
   position: absolute;
   inset: 0;
-  background: #0a0c08;
+  background: rgba(10, 12, 8, 0.45);
   display: flex;
   align-items: center;
   z-index: 10;
   pointer-events: none;
+}
+
+.gallery-fixed-title {
+  position: absolute;
+  left: 10%;
+  top: 5%;
+  z-index: 20;
+  pointer-events: none;
+  max-width: 400px;
+}
+
+.gallery-item-wrapper {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 10%;
+  scroll-snap-align: start;
+  position: relative;
+}
+
+.gallery-item-wrapper.align-left {
+  justify-content: flex-start;
+}
+
+.gallery-item-wrapper.align-right {
+  justify-content: flex-end;
+}
+
+@media (max-width: 1024px) {
+  .gallery-fixed-title {
+    top: 5%;
+    text-align: center;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+  }
+  .gallery-item-wrapper.align-left,
+  .gallery-item-wrapper.align-right {
+    justify-content: center;
+    padding-top: 15vh;
+  }
 }
 
 .transition-content {

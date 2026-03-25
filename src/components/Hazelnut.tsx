@@ -118,9 +118,27 @@ interface HazelnutProps {
   rotation?: [number, number, number]
   angularVelocity?: [number, number, number]
   isHero?: boolean
+  isTransitionHero?: boolean
+  gravityScale?: number
+  linearDamping?: number
+  mode?: 'heroFalling' | 'galleryFalling'
+  sensor?: boolean
+  castShadow?: boolean
 }
 
-export default function Hazelnut({ position, type = 'kernel', rotation = [0, 0, 0], angularVelocity = [0, 0, 0], isHero = false }: HazelnutProps) {
+export default function Hazelnut({ 
+  position, 
+  type = 'kernel', 
+  rotation = [0, 0, 0], 
+  angularVelocity = [0, 0, 0], 
+  isHero = false, 
+  isTransitionHero = false,
+  gravityScale = 1.0,
+  linearDamping = 0,
+  mode,
+  sensor = false,
+  castShadow = true
+}: HazelnutProps) {
   const rigidBodyRef = useRef<any>(null)
   const meshGroupRef = useRef<THREE.Group>(null)
   const fbx = useFBX('/models/hazelnut/BB_031_huzelnut.fbx')
@@ -148,7 +166,7 @@ export default function Hazelnut({ position, type = 'kernel', rotation = [0, 0, 
     clone.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh
-        mesh.castShadow = true
+        mesh.castShadow = castShadow
         mesh.receiveShadow = true
         
         if (type === 'kernel') {
@@ -174,7 +192,7 @@ export default function Hazelnut({ position, type = 'kernel', rotation = [0, 0, 
       }
     })
     return clone
-  }, [fbx, colorMap, normalMap, dispMap, type, inshellTex])
+  }, [fbx, colorMap, normalMap, dispMap, type, inshellTex, castShadow])
 
   // Tracker group inside RigidBody — BlobShadow reads its world position
   const trackerRef = useRef<THREE.Group>(null)
@@ -182,7 +200,7 @@ export default function Hazelnut({ position, type = 'kernel', rotation = [0, 0, 
   // Apply initial angular velocity after physics body is created
   useEffect(() => {
     const rb = rigidBodyRef.current
-    if (rb && !isHero) {
+    if (rb && !isHero && !isTransitionHero) {
       rb.setAngvel({ x: angularVelocity[0], y: angularVelocity[1], z: angularVelocity[2] }, true)
     }
   }, [isHero, angularVelocity])
@@ -216,22 +234,51 @@ export default function Hazelnut({ position, type = 'kernel', rotation = [0, 0, 
         rotY = THREE.MathUtils.lerp(rotation[1], 0, ease) + state.clock.elapsedTime * 0.5
         rotZ = THREE.MathUtils.lerp(rotation[2], 0, ease)
       } else {
-        scale = 3.0
+        const t = Math.min(1, (currentProgress - 0.333) / 0.05)
+        scale = THREE.MathUtils.lerp(3.0, 0, t)
         x = 4.5
         y = 0.6
         z = -1.4
         rotX = 0
-        rotY = (currentProgress - 0.333) * 2 + state.clock.elapsedTime * 0.5
+        rotY = Math.PI * 0.66 + (currentProgress - 0.333) * 2 + state.clock.elapsedTime * 0.5
         rotZ = 0
       }
 
       meshGroupRef.current.scale.setScalar(scale)
       meshGroupRef.current.position.set(x, y, z)
       meshGroupRef.current.rotation.set(rotX, rotY, rotZ)
-    } else {
-      // Shrink falling hazelnuts exponentially based on targetProgress
-      const shrinkFactor = Math.max(0, 1 - cameraProgress.current * 6)
+    } else if (isTransitionHero) {
+      let scale = 0
+      let x = position[0]
+      let y = position[1]
+      let z = position[2]
+
+      const currentProgress = cameraProgress.current
+
+      if (currentProgress > 0.333 && currentProgress <= 0.45) {
+         const t = Math.max(0, Math.min(1, (currentProgress - 0.333) / 0.067))
+         scale = THREE.MathUtils.lerp(0, 2.0, t)
+         x = THREE.MathUtils.lerp(position[0] * 3, position[0], t)
+      } else if (currentProgress > 0.45) {
+         const t = Math.max(0, Math.min(1, (currentProgress - 0.45) / 0.05))
+         scale = THREE.MathUtils.lerp(2.0, 0, t)
+      } else {
+         scale = 0
+      }
+
+      meshGroupRef.current.scale.setScalar(scale)
+      meshGroupRef.current.position.set(x, y, z)
+      meshGroupRef.current.rotation.set(0, state.clock.elapsedTime * 0.8, 0)
+    } else if (mode === 'heroFalling') {
+      const p = cameraProgress.current
+      const shrinkFactor = p < 0.2 ? Math.max(0, 1 - p * 5) : 0
       meshGroupRef.current.scale.setScalar(shrinkFactor)
+    } else if (mode === 'galleryFalling') {
+      const p = cameraProgress.current
+      const shrinkFactor = p > 0.4 ? THREE.MathUtils.lerp(0, 0.5, Math.min(1, (p - 0.4) * 10)) : 0
+      meshGroupRef.current.scale.setScalar(shrinkFactor)
+    } else {
+      meshGroupRef.current.scale.setScalar(0)
     }
   })
 
@@ -244,7 +291,7 @@ export default function Hazelnut({ position, type = 'kernel', rotation = [0, 0, 
     </group>
   )
 
-  if (isHero) {
+  if (isHero || isTransitionHero) {
     return <group position={position}>{content}</group>
   }
 
@@ -253,15 +300,18 @@ export default function Hazelnut({ position, type = 'kernel', rotation = [0, 0, 
       <RigidBody
         ref={rigidBodyRef}
         colliders="ball"
+        sensor={sensor}
         position={position}
         rotation={rotation}
+        gravityScale={gravityScale}
+        linearDamping={linearDamping}
         restitution={type === 'inshell' ? 0.75 : 0.6}
         friction={type === 'inshell' ? 0.3 : 0.8}
         angularDamping={0.3}
       >
         {content}
       </RigidBody>
-      <BlobShadow trackerRef={trackerRef} />
+      {castShadow && <BlobShadow trackerRef={trackerRef} />}
     </>
   )
 }

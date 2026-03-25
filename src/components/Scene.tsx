@@ -3,6 +3,8 @@ import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import Hazelnut from './Hazelnut'
 import Floor from './Floor'
+import HeroFallingNuts from './HeroFallingNuts'
+import GalleryFallingNuts from './GalleryFallingNuts'
 import { Environment } from '@react-three/drei'
 import { Physics } from '@react-three/rapier'
 
@@ -62,50 +64,9 @@ function CameraRig() {
 }
 
 export default function Scene({ onLoaded }: { onLoaded?: () => void }) {
-  const [hazelnuts, setHazelnuts] = useState<{ id: number; position: [number, number, number]; type: 'kernel' | 'inshell'; rotation: [number, number, number]; angVel: [number, number, number] }[]>([])
-
   useEffect(() => {
     if (onLoaded) onLoaded()
-    let interval: ReturnType<typeof setInterval> | null = null
-
-    const spawnNut = () => {
-      setHazelnuts((prev) => {
-        const typeMix: 'kernel' | 'inshell' = 'inshell' // Temporarily all inshell — kernel code preserved in Hazelnut.tsx
-        return [
-          ...prev,
-          {
-            id: Date.now(),
-            position: [(Math.random() - 0.5) * 4, 10 + Math.random() * 2, (Math.random() - 0.5) * 4] as [number, number, number],
-            type: typeMix,
-            rotation: [Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2] as [number, number, number],
-            angVel: [(Math.random() - 0.5) * 8, (Math.random() - 0.5) * 8, (Math.random() - 0.5) * 8] as [number, number, number],
-          }
-        ].slice(-100)
-      })
-    }
-
-    const startInterval = () => {
-      if (!interval) interval = setInterval(spawnNut, 400)
-    }
-
-    const stopInterval = () => {
-      if (interval) { clearInterval(interval); interval = null }
-    }
-
-    // Pause when tab is hidden, resume when visible
-    const handleVisibility = () => {
-      if (document.hidden) stopInterval()
-      else startInterval()
-    }
-
-    document.addEventListener('visibilitychange', handleVisibility)
-    startInterval()
-
-    return () => {
-      stopInterval()
-      document.removeEventListener('visibilitychange', handleVisibility)
-    }
-  }, [])
+  }, [onLoaded])
 
   return (
     <>
@@ -121,11 +82,14 @@ export default function Scene({ onLoaded }: { onLoaded?: () => void }) {
       <Environment preset="studio" />
 
       <Hazelnut position={[0, 0, 0]} isHero={true} type="inshell" />
+      <Hazelnut position={[-4, 3, -1]} isTransitionHero={true} type="kernel" />
+      <Hazelnut position={[-1.3, 3, 0]} isTransitionHero={true} type="kernel" />
+      <Hazelnut position={[1.3, 3, 0]} isTransitionHero={true} type="kernel" />
+      <Hazelnut position={[4, 3, -1]} isTransitionHero={true} type="kernel" />
       <Physics>
         <Floor />
-        {hazelnuts.map((nut) => (
-          <Hazelnut key={nut.id} position={nut.position} type={nut.type} rotation={nut.rotation} angularVelocity={nut.angVel} />
-        ))}
+        <HeroFallingNuts />
+        <GalleryFallingNuts />
       </Physics>
     </>
   )

@@ -6,7 +6,6 @@ import './index.css'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 
-const TOTAL_FRAMES = 80
 const TOTAL_SECTIONS = 5
 
 // Map each section index to a 3D camera progress value (0–1)
@@ -14,7 +13,7 @@ const TOTAL_SECTIONS = 5
 const SECTION_PROGRESS: Record<number, number> = {
   0: 0,
   1: 0.333,
-  2: 0.333,
+  2: 0.4,
   3: 0.5,
   4: 1.0,
 }
@@ -23,13 +22,11 @@ function App() {
   const [showUI, setShowUI] = useState(false)
   const [sceneLoaded, setSceneLoaded] = useState(false)
   const [activeSection, setActiveSection] = useState(0)
-  const [frameIndex, setFrameIndex] = useState(0)
   const currentSection = useRef(0)
   const isAnimating = useRef(false)
   const scrollLockAt = useRef(0)
   const sectionsRef = useRef<HTMLElement[]>([])
   const wrapperRef = useRef<HTMLDivElement>(null)
-  const frameIndexRef = useRef(0) // keeps sync with state without closure issues
 
   // Navigate to a specific section
   const goToSection = useCallback((index: number) => {
@@ -41,18 +38,18 @@ function App() {
     currentSection.current = index
     setActiveSection(index)
 
-    // Set correct starting frame when entering Section 3, or reset when leaving
+    // Set correct starting scroll position when entering Section 3
     if (index === 3) {
-      if (prevIndex > 3) {
-        setFrameIndex(TOTAL_FRAMES - 1)
-        frameIndexRef.current = TOTAL_FRAMES - 1
-      } else {
-        setFrameIndex(0)
-        frameIndexRef.current = 0
-      }
-    } else if (prevIndex === 3) {
-      setFrameIndex(0)
-      frameIndexRef.current = 0
+      setTimeout(() => {
+        const scrollContainer = document.querySelector('.gallery-scroll-container')
+        if (scrollContainer) {
+          if (prevIndex === 4) {
+             scrollContainer.scrollTop = scrollContainer.scrollHeight
+          } else {
+             scrollContainer.scrollTop = 0
+          }
+        }
+      }, 50)
     }
 
     // Notify 3D scene of section change
@@ -116,29 +113,6 @@ function App() {
       // Ignore scroll if actively animating or if we are inside the post-animation cooldown window
       if (isAnimating.current || Date.now() - scrollLockAt.current < 800) return
 
-      // Section 3 (frames) — intercept scroll to drive frame animation
-      if (currentSection.current === 3) {
-        if (direction === 'down') {
-          if (frameIndexRef.current < TOTAL_FRAMES - 1) {
-            const next = frameIndexRef.current + 1
-            frameIndexRef.current = next
-            setFrameIndex(next)
-          } else {
-            goToSection(4)
-          }
-        } else {
-          if (frameIndexRef.current > 0) {
-            const prev = frameIndexRef.current - 1
-            frameIndexRef.current = prev
-            setFrameIndex(prev)
-          } else {
-            goToSection(2)
-          }
-        }
-        return
-      }
-
-      // Normal section navigation
       if (direction === 'down') {
         goToSection(currentSection.current + 1)
       } else {
@@ -147,6 +121,16 @@ function App() {
     }
 
     const handleWheel = (e: WheelEvent) => {
+      if (currentSection.current === 3) {
+        const scrollContainer = document.querySelector('.gallery-scroll-container')
+        if (scrollContainer) {
+          const { scrollTop, scrollHeight, clientHeight } = scrollContainer
+          // Allow native scroll if not at absolute boundaries
+          if (e.deltaY > 0 && Math.abs((scrollTop + clientHeight) - scrollHeight) > 2) return
+          if (e.deltaY < 0 && scrollTop > 2) return
+        }
+      }
+
       e.preventDefault()
       if (e.deltaY > 0) handleScroll('down')
       else if (e.deltaY < 0) handleScroll('up')
@@ -159,6 +143,16 @@ function App() {
     const handleTouchEnd = (e: TouchEvent) => {
       const deltaY = touchStartY - e.changedTouches[0].clientY
       const threshold = 50
+
+      if (currentSection.current === 3) {
+        const scrollContainer = document.querySelector('.gallery-scroll-container')
+        if (scrollContainer) {
+          const { scrollTop, scrollHeight, clientHeight } = scrollContainer
+          if (deltaY > threshold && Math.abs((scrollTop + clientHeight) - scrollHeight) > 2) return
+          if (deltaY < -threshold && scrollTop > 2) return
+        }
+      }
+
       if (deltaY > threshold) handleScroll('down')
       else if (deltaY < -threshold) handleScroll('up')
     }
@@ -276,19 +270,16 @@ function App() {
         {/* Section 1 — Services */}
         <section className="fullpage-section" ref={(el) => addSectionRef(el, 1)}>
           <div className="section-content left">
-            <div className="content reveal-text tech-specs">
-              <h2 className="spec-title" style={{ fontSize: 'clamp(2.5rem, 4vw, 4rem)' }}>
-                SERVICIOS<br/>ASOCIADOS
+            <div className="content reveal-text">
+              <p className="subtitle" style={{ color: 'var(--green-accent)', fontFamily: 'var(--font-heading)', fontWeight: 600, letterSpacing: '0.12em', fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '12px' }}>
+                SERVICES
+              </p>
+              <h2 style={{ fontSize: 'clamp(3rem, 5vw, 4.5rem)', textTransform: 'uppercase', fontWeight: 800, lineHeight: 0.9 }}>
+                WHAT WE DO
               </h2>
-
-              <div className="spec-divider"></div>
-
-              <ul className="spec-list services-list">
-                <li><span className="service-number">1-</span> Limpieza y secado</li>
-                <li><span className="service-number">2-</span> Descascarado</li>
-                <li><span className="service-number">3-</span> Exportación</li>
-                <li><span className="service-number">4-</span> Valor Agregado</li>
-              </ul>
+              <p style={{ color: 'var(--text-muted)', lineHeight: 1.6, fontSize: '1.05rem', marginTop: '16px' }}>
+                We connect Chilean hazelnuts to global markets through precision processing, quality control, and export expertise.
+              </p>
             </div>
           </div>
         </section>
@@ -309,9 +300,9 @@ function App() {
           </div>
         </section>
 
-        {/* Section 3 — Frame Sequence (scroll-locked animation) */}
+        {/* Section 3 — Parallax Gallery */}
         <section className="fullpage-section" ref={(el) => addSectionRef(el, 3)}>
-          <FrameSequence frameIndex={frameIndex} totalFrames={TOTAL_FRAMES} />
+          <FrameSequence />
         </section>
 
         {/* Section 4 — Final */}
