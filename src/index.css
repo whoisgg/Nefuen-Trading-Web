@@ -669,6 +669,7 @@ body {
   .transition-content {
     padding: 90px 5% 0;
   }
+
 }
 
 /* ═══════════════════════════════════════
@@ -708,6 +709,7 @@ body {
 
 .gallery-item-wrapper.align-left {
   justify-content: flex-start;
+  padding-top: 12vh;
 }
 
 .gallery-item-wrapper.align-right {
@@ -726,6 +728,18 @@ body {
   .gallery-item-wrapper.align-right {
     justify-content: center;
     padding-top: 15vh;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Gallery: push title below navbar and bring card closer on mobile */
+  .gallery-fixed-title {
+    top: 14%;
+  }
+
+  .gallery-item-wrapper.align-left,
+  .gallery-item-wrapper.align-right {
+    padding-top: 20vh;
   }
 }
 
