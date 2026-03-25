@@ -118,7 +118,7 @@ interface HazelnutProps {
   rotation?: [number, number, number]
   angularVelocity?: [number, number, number]
   isHero?: boolean
-  isTransitionHero?: boolean
+  isFinalHero?: boolean
   gravityScale?: number
   linearDamping?: number
   mode?: 'heroFalling' | 'galleryFalling'
@@ -132,7 +132,7 @@ export default function Hazelnut({
   rotation = [0, 0, 0], 
   angularVelocity = [0, 0, 0], 
   isHero = false, 
-  isTransitionHero = false,
+  isFinalHero = false,
   gravityScale = 1.0,
   linearDamping = 0,
   mode,
@@ -200,7 +200,7 @@ export default function Hazelnut({
   // Apply initial angular velocity after physics body is created
   useEffect(() => {
     const rb = rigidBodyRef.current
-    if (rb && !isHero && !isTransitionHero) {
+    if (rb && !isHero && !isFinalHero) {
       rb.setAngvel({ x: angularVelocity[0], y: angularVelocity[1], z: angularVelocity[2] }, true)
     }
   }, [isHero, angularVelocity])
@@ -247,27 +247,20 @@ export default function Hazelnut({
       meshGroupRef.current.scale.setScalar(scale)
       meshGroupRef.current.position.set(x, y, z)
       meshGroupRef.current.rotation.set(rotX, rotY, rotZ)
-    } else if (isTransitionHero) {
+    } else if (isFinalHero) {
       let scale = 0
-      let x = position[0]
-      let y = position[1]
       let z = position[2]
 
       const currentProgress = cameraProgress.current
 
-      if (currentProgress > 0.333 && currentProgress <= 0.45) {
-         const t = Math.max(0, Math.min(1, (currentProgress - 0.333) / 0.067))
-         scale = THREE.MathUtils.lerp(0, 2.0, t)
-         x = THREE.MathUtils.lerp(position[0] * 3, position[0], t)
-      } else if (currentProgress > 0.45) {
-         const t = Math.max(0, Math.min(1, (currentProgress - 0.45) / 0.05))
-         scale = THREE.MathUtils.lerp(2.0, 0, t)
-      } else {
-         scale = 0
+      if (currentProgress > 0.6) {
+         const t = Math.max(0, Math.min(1, (currentProgress - 0.6) / 0.4))
+         scale = THREE.MathUtils.lerp(0, 3.0, t)
+         z = THREE.MathUtils.lerp(position[2] * 4, position[2], t)
       }
 
       meshGroupRef.current.scale.setScalar(scale)
-      meshGroupRef.current.position.set(x, y, z)
+      meshGroupRef.current.position.set(position[0], position[1], z)
       meshGroupRef.current.rotation.set(0, state.clock.elapsedTime * 0.8, 0)
     } else if (mode === 'heroFalling') {
       const p = cameraProgress.current
@@ -291,7 +284,7 @@ export default function Hazelnut({
     </group>
   )
 
-  if (isHero || isTransitionHero) {
+  if (isHero || isFinalHero) {
     return <group position={position}>{content}</group>
   }
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import Hazelnut from './Hazelnut'
@@ -82,10 +82,10 @@ export default function Scene({ onLoaded }: { onLoaded?: () => void }) {
       <Environment preset="studio" />
 
       <Hazelnut position={[0, 0, 0]} isHero={true} type="inshell" />
-      <Hazelnut position={[-4, 3, -1]} isTransitionHero={true} type="kernel" />
-      <Hazelnut position={[-1.3, 3, 0]} isTransitionHero={true} type="kernel" />
-      <Hazelnut position={[1.3, 3, 0]} isTransitionHero={true} type="kernel" />
-      <Hazelnut position={[4, 3, -1]} isTransitionHero={true} type="kernel" />
+      <Hazelnut position={[0, 0, -4.5]} isFinalHero={true} type="kernel" />
+      <Hazelnut position={[0, 0, -1.5]} isFinalHero={true} type="kernel" />
+      <Hazelnut position={[0, 0, 1.5]} isFinalHero={true} type="kernel" />
+      <Hazelnut position={[0, 0, 4.5]} isFinalHero={true} type="kernel" />
       <Physics>
         <Floor />
         <HeroFallingNuts />
