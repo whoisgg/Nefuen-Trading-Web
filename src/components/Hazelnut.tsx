@@ -124,7 +124,9 @@ interface HazelnutProps {
   mode?: 'heroFalling' | 'galleryFalling'
   sensor?: boolean
   castShadow?: boolean
-  index?: number
+  targetPosition?: [number, number, number]
+  rotOffset?: [number, number, number]
+  rotSpeed?: [number, number, number]
 }
 
 export default function Hazelnut({ 
@@ -139,7 +141,9 @@ export default function Hazelnut({
   mode,
   sensor = false,
   castShadow = true,
-  index
+  targetPosition,
+  rotOffset,
+  rotSpeed
 }: HazelnutProps) {
   const rigidBodyRef = useRef<any>(null)
   const meshGroupRef = useRef<THREE.Group>(null)
@@ -249,29 +253,9 @@ export default function Hazelnut({
       meshGroupRef.current.scale.setScalar(scale)
       meshGroupRef.current.position.set(x, y, z)
       meshGroupRef.current.rotation.set(rotX, rotY, rotZ)
-    } else if (isFinalHero && index !== undefined) {
+    } else if (isFinalHero && targetPosition && rotOffset && rotSpeed) {
       let scale = 0
-      
-      // Target composition: [X (depth), Y (height), Z (horizontal)]
-      const targets = [
-        [0, -2.5, -4.5],  // Far left
-        [-2.5, -3.5, -1.8], // Center left, forward and low
-        [-1.5, -2.0, 1.8],  // Center right, forward and high
-        [1, -3.0, 4.5]    // Far right
-      ]
-      
-      // Enter from all off-screen directions
-      const starts = [
-        [0, 12, -14],    // Drops from top left
-        [0, -12, -10],   // Sweeps from bottom left
-        [0, 12, 10],     // Drops from top right
-        [0, -12, 14]     // Sweeps from bottom right
-      ]
-
-      const target = targets[index]
-      const start = starts[index]
-      
-      let x = start[0], y = start[1], z = start[2]
+      let x = position[0], y = position[1], z = position[2]
       let rotX = 0, rotY = 0, rotZ = 0
 
       const currentProgress = cameraProgress.current
@@ -280,15 +264,16 @@ export default function Hazelnut({
          const tRaw = Math.max(0, Math.min(1, (currentProgress - 0.6) / 0.4))
          // Premium ease-out cubic
          const t = 1 - Math.pow(1 - tRaw, 3)
-         scale = THREE.MathUtils.lerp(0, 3.5 + (index===1||index===2 ? 1.0 : 0), t)
          
-         x = THREE.MathUtils.lerp(start[0], target[0], t)
-         y = THREE.MathUtils.lerp(start[1], target[1], t)
-         z = THREE.MathUtils.lerp(start[2], target[2], t)
+         scale = THREE.MathUtils.lerp(0.1, 3.5, t)
+         
+         x = THREE.MathUtils.lerp(position[0], targetPosition[0], t)
+         y = THREE.MathUtils.lerp(position[1], targetPosition[1], t)
+         z = THREE.MathUtils.lerp(position[2], targetPosition[2], t)
 
-         rotX = THREE.MathUtils.lerp(Math.PI * (index % 2 === 0 ? 2 : -2), 0, t) + state.clock.elapsedTime * 0.15
-         rotY = THREE.MathUtils.lerp(Math.PI * 2, 0, t) + state.clock.elapsedTime * (index===1?-0.2:0.2)
-         rotZ = THREE.MathUtils.lerp(Math.PI, 0, t) + state.clock.elapsedTime * 0.1
+         rotX = THREE.MathUtils.lerp(rotOffset[0] + Math.PI, rotOffset[0], t) + state.clock.elapsedTime * rotSpeed[0]
+         rotY = THREE.MathUtils.lerp(rotOffset[1] + Math.PI, rotOffset[1], t) + state.clock.elapsedTime * rotSpeed[1]
+         rotZ = THREE.MathUtils.lerp(rotOffset[2] + Math.PI, rotOffset[2], t) + state.clock.elapsedTime * rotSpeed[2]
       }
 
       meshGroupRef.current.scale.setScalar(scale)

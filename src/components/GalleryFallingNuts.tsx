@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useFrame } from '@react-three/fiber'
 import Hazelnut from './Hazelnut'
 import { cameraProgress } from './Scene'
 
@@ -26,7 +25,9 @@ export default function GalleryFallingNuts() {
       if (!isActive) return
       
       const p = cameraProgress.current
-      if (p > 0.35 && p < 0.65) {
+      
+      // Keep spawning constantly everywhere except the final section so the background is completely clean for the final composition
+      if (p < 0.70) {
         setHazelnuts((prev) => {
           return [
             ...prev,
@@ -42,6 +43,7 @@ export default function GalleryFallingNuts() {
           ].slice(-150)
         })
       }
+      
       timeout = setTimeout(spawnLoop, 150)
     }
 
@@ -59,14 +61,6 @@ export default function GalleryFallingNuts() {
       document.removeEventListener('visibilitychange', handleVisibility)
     }
   }, [])
-
-  // Clear array aggressively to save memory when completely out of view
-  useFrame(() => {
-    const p = cameraProgress.current
-    if ((p < 0.25 || p > 0.75) && hazelnuts.length > 0) {
-      setHazelnuts([])
-    }
-  })
 
   return (
     <>

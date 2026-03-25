@@ -63,6 +63,25 @@ function CameraRig() {
   return null
 }
 
+const FINAL_NUTS = Array.from({ length: 55 }, (_, i) => {
+  const targetX = -6 + Math.random() * 8;
+  const targetY = -7 + Math.random() * 16;
+  const targetZ = -12 + Math.random() * 24;
+  
+  const startX = 0;
+  const startY = targetY > 1 ? 25 : -25;
+  const startZ = targetZ < 0 ? -30 : 30;
+
+  return {
+    id: i,
+    type: Math.random() > 0.5 ? 'kernel' : 'inshell',
+    target: [targetX, targetY, targetZ],
+    start: [startX, startY, startZ],
+    rotOffset: [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI],
+    rotSpeed: [(Math.random() - 0.5) * 0.8, (Math.random() - 0.5) * 0.8, (Math.random() - 0.5) * 0.8]
+  }
+})
+
 export default function Scene({ onLoaded }: { onLoaded?: () => void }) {
   useEffect(() => {
     if (onLoaded) onLoaded()
@@ -82,10 +101,17 @@ export default function Scene({ onLoaded }: { onLoaded?: () => void }) {
       <Environment preset="studio" />
 
       <Hazelnut position={[0, 0, 0]} isHero={true} type="inshell" />
-      <Hazelnut position={[0,0,0]} index={0} isFinalHero={true} type="kernel" />
-      <Hazelnut position={[0,0,0]} index={1} isFinalHero={true} type="kernel" />
-      <Hazelnut position={[0,0,0]} index={2} isFinalHero={true} type="kernel" />
-      <Hazelnut position={[0,0,0]} index={3} isFinalHero={true} type="kernel" />
+      {FINAL_NUTS.map((nut) => (
+        <Hazelnut 
+          key={`final-${nut.id}`} 
+          isFinalHero={true} 
+          type={nut.type as 'kernel' | 'inshell'} 
+          position={nut.start as [number,number,number]} 
+          targetPosition={nut.target as [number,number,number]}
+          rotOffset={nut.rotOffset as [number,number,number]}
+          rotSpeed={nut.rotSpeed as [number,number,number]}
+        />
+      ))}
       <Physics>
         <Floor />
         <HeroFallingNuts />
