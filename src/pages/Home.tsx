@@ -127,7 +127,7 @@ export default function Home() {
           
           const now = Date.now()
           if (galleryBoundaryAt.current === 0) galleryBoundaryAt.current = now
-          if (now - galleryBoundaryAt.current < 500) { e.preventDefault(); return }
+          if (now - galleryBoundaryAt.current < 400) { e.preventDefault(); return }
           // If we passed the 500ms, keep galleryBoundaryAt set so it continues to work
           // but reset handled below in handleScroll
         }
@@ -181,9 +181,7 @@ export default function Home() {
               galleryBoundaryAt.current = now
               return
             }
-            // If they swiped after being at boundary for < 500ms, block
-            // This prevents accidental bounce-through from a fast scroll
-            if (now - galleryBoundaryAt.current < 500) return
+            if (now - galleryBoundaryAt.current < 400) return
             
             // Allow transition
             galleryBoundaryAt.current = 0

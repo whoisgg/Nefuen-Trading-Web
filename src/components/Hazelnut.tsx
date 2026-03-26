@@ -222,7 +222,7 @@ export default function Hazelnut({
         const t = Math.max(0, currentProgress / 0.333)
         const ease = t * t * (3 - 2 * t)
         
-        scale = THREE.MathUtils.lerp(0, 3.0, ease)
+        scale = 3.0
         x = THREE.MathUtils.lerp(position[0], 4.5, ease)
         y = THREE.MathUtils.lerp(position[1], 0.6, ease)
         z = THREE.MathUtils.lerp(position[2], -1.4, ease)
