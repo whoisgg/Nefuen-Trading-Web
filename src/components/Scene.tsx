@@ -35,8 +35,8 @@ function CameraRig() {
     const isPortrait = aspect < 0.8
 
     // Adjust FOV for portrait mode (narrow screens need wider FOV)
-    if (isPortrait && (state.camera as THREE.PerspectiveCamera).fov !== 55) {
-      ;(state.camera as THREE.PerspectiveCamera).fov = 55
+    if (isPortrait && (state.camera as THREE.PerspectiveCamera).fov !== 62) {
+      ;(state.camera as THREE.PerspectiveCamera).fov = 62
       state.camera.updateProjectionMatrix()
     } else if (!isPortrait && (state.camera as THREE.PerspectiveCamera).fov !== 45) {
       ;(state.camera as THREE.PerspectiveCamera).fov = 45
