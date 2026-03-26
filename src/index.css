@@ -1397,8 +1397,7 @@ body {
 .products-hero-video {
   position: relative;
   width: 100%;
-  flex: 1;
-  min-height: 200px;
+  max-height: 55vh;
   margin-bottom: 12px;
   overflow: hidden;
   opacity: 0;
@@ -1904,12 +1903,9 @@ body {
 
 .about-parallax-img {
   width: 100%;
-  height: 120%;
+  height: 100%;
   object-fit: cover;
   object-position: center;
-  position: fixed;
-  top: 0;
-  left: 0;
 }
 
 .about-parallax-overlay {
