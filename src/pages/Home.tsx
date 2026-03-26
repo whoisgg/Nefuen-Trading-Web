@@ -121,12 +121,16 @@ export default function Home() {
         const scrollContainer = document.querySelector('.gallery-scroll-container')
         if (scrollContainer) {
           const { scrollTop, scrollHeight, clientHeight } = scrollContainer
-          const isAtTop = scrollTop <= 10
-          const isAtBottom = (scrollTop + clientHeight) >= (scrollHeight - 10)
-          
+          const isAtBottom = Math.abs((scrollTop + clientHeight) - scrollHeight) <= 2
+          const isAtTop = scrollTop <= 2
+          // Not at boundary — allow native gallery scroll, reset flag
           if (e.deltaY > 0 && !isAtBottom) { galleryBoundaryAt.current = 0; return }
           if (e.deltaY < 0 && !isAtTop) { galleryBoundaryAt.current = 0; return }
-          // Skip lockout delay for smoother feel as requested
+          // At boundary — absorb scrolls for 500ms then allow transition
+          const now = Date.now()
+          if (galleryBoundaryAt.current === 0) galleryBoundaryAt.current = now
+          if (now - galleryBoundaryAt.current < 500) { e.preventDefault(); return }
+          galleryBoundaryAt.current = 0
         }
       }
       e.preventDefault()
@@ -148,16 +152,10 @@ export default function Home() {
         if (!scrollContainer) { if (e.cancelable) e.preventDefault(); return }
         const { scrollTop, scrollHeight, clientHeight } = scrollContainer
         const delta = touchStartY - touchCurrentY
-        const isAtTop = scrollTop <= 10
-        const isAtBottom = (scrollTop + clientHeight) >= (scrollHeight - 10)
-
-        // Track when we hit the boundary during movement
-        if ((delta > 0 && isAtBottom) || (delta < 0 && isAtTop)) {
-          if (galleryBoundaryAt.current === 0) galleryBoundaryAt.current = Date.now()
-          if (e.cancelable) e.preventDefault()
-        } else {
-          galleryBoundaryAt.current = 0
-        }
+        const isAtTop = scrollTop <= 2
+        const isAtBottom = Math.abs((scrollTop + clientHeight) - scrollHeight) <= 2
+        if (delta > 0 && isAtBottom) { if (e.cancelable) e.preventDefault() }
+        if (delta < 0 && isAtTop) { if (e.cancelable) e.preventDefault() }
       }
     }
 
@@ -168,18 +166,24 @@ export default function Home() {
         const scrollContainer = document.querySelector('.gallery-scroll-container')
         if (scrollContainer) {
           const { scrollTop, scrollHeight, clientHeight } = scrollContainer
-          const isAtTop = scrollTop <= 10
-          const isAtBottom = (scrollTop + clientHeight) >= (scrollHeight - 10)
-          
+          const isAtTop = scrollTop <= 5
+          const isAtBottom = (scrollTop + clientHeight) >= (scrollHeight - 5)
+          // Not at boundary — stay in gallery and reset boundary flag
+          if (deltaY > threshold && !isAtBottom) { galleryBoundaryAt.current = 0; return }
+          if (deltaY < -threshold && !isAtTop) { galleryBoundaryAt.current = 0; return }
+          // At boundary — absorb first swipe, allow second (must be within 3s)
           if ((deltaY > threshold && isAtBottom) || (deltaY < -threshold && isAtTop)) {
-            // Skip lockout delay for smoother feel as requested
-            
-            // Allow transition
+            const now = Date.now()
+            if (galleryBoundaryAt.current === 0 || (now - galleryBoundaryAt.current) > 3000) {
+              // First swipe at boundary OR stale flag — absorb and reset
+              galleryBoundaryAt.current = now
+              return
+            }
+            // Second swipe at boundary within 3s — allow transition
             galleryBoundaryAt.current = 0
           } else {
-            // Not at boundary or not enough swipe delta — reset lockout
-            galleryBoundaryAt.current = 0
-            if (Math.abs(deltaY) > threshold) return // Inside gallery, don't trigger outer scroll
+            // Swipe too small at boundary — don't count
+            return
           }
         }
       }
