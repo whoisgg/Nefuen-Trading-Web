@@ -193,6 +193,242 @@ body {
 }
 
 /* ═══════════════════════════════════════
+   HAMBURGER MENU
+   ═══════════════════════════════════════ */
+
+/* Mobile navbar right section: lang + hamburger */
+.navbar-mobile-right {
+  display: none;
+  align-items: center;
+  gap: 16px;
+}
+
+.lang-slide-button--mobile {
+  display: none;
+}
+
+.hamburger {
+  display: none;
+  position: relative;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 60;
+  padding: 0;
+}
+
+.hamburger__line {
+  position: absolute;
+  width: 20px;
+  height: 1.5px;
+  background: var(--text-primary);
+  transition: all 300ms ease;
+}
+
+.hamburger__line--1 {
+  transform: translateY(-6px);
+}
+
+.hamburger__line--2 {
+  transform: translateY(0);
+}
+
+.hamburger__line--3 {
+  transform: translateY(6px);
+}
+
+.hamburger--open .hamburger__line--1 {
+  transform: translateY(0) rotate(45deg);
+}
+
+.hamburger--open .hamburger__line--2 {
+  opacity: 0;
+}
+
+.hamburger--open .hamburger__line--3 {
+  transform: translateY(0) rotate(-45deg);
+}
+
+/* Mobile full-screen menu */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  background: #fff;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 500ms ease, visibility 500ms ease;
+}
+
+.mobile-menu--open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.mobile-menu__content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 100px 24px 48px;
+}
+
+.mobile-menu__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.mobile-menu__link {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: opacity 300ms ease;
+}
+
+.mobile-menu__link:hover {
+  opacity: 0.5;
+}
+
+.mobile-menu__link--active {
+  font-style: italic;
+}
+
+/* Language toggle — centered in mobile menu */
+.mobile-menu__lang {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.mobile-menu__lang-btn {
+  background: none;
+  border: 1px solid var(--text-muted);
+  border-radius: 4px;
+  color: var(--text-secondary);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 8px 24px;
+  cursor: pointer;
+  transition: all 300ms ease;
+}
+
+.mobile-menu__lang-btn:hover {
+  border-color: var(--green-mid);
+  color: var(--green-mid);
+}
+
+/* Footer in mobile menu */
+.mobile-menu__footer {
+  margin-top: auto;
+  padding-top: 32px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.mobile-menu__footer-label {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.4);
+  margin: 0 0 8px;
+}
+
+.mobile-menu__footer-email {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: opacity 300ms ease;
+}
+
+.mobile-menu__footer-email:hover {
+  opacity: 0.5;
+}
+
+/* ═══════════════════════════════════════
+   ARROW CTA — shared bracket + looping arrow
+   ═══════════════════════════════════════ */
+
+.arrow-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #1a1a1a;
+  width: fit-content;
+}
+
+.arrow-cta--light {
+  color: #fff;
+}
+
+.arrow-cta__icon {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrow-cta__brackets {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.arrow-cta__swap {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  overflow: hidden;
+}
+
+.arrow-cta__svg {
+  position: absolute;
+  inset: 0;
+  width: 14px;
+  height: 14px;
+  transition: all 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.arrow-cta__label {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: transform 400ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.arrow-cta__label.label-shifted {
+  transform: translateX(3px);
+}
+
+.arrow-cta--light .bracket-idle {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.arrow-cta--light .bracket-active {
+  color: #fff;
+}
+
+/* ═══════════════════════════════════════
    STANDALONE PAGES (Products, Contact, About)
    ═══════════════════════════════════════ */
 
@@ -651,13 +887,24 @@ body {
     height: 32px;
   }
 
-  .navbar .nav-links {
-    gap: 12px;
+  .nav-links--desktop {
+    display: none !important;
   }
 
-  .navbar .nav-links a {
-    font-size: 0.65rem;
-    letter-spacing: 0.04em;
+  .navbar-mobile-right {
+    display: flex !important;
+  }
+
+  .lang-slide-button--mobile {
+    display: inline-flex !important;
+  }
+
+  .hamburger {
+    display: flex !important;
+  }
+
+  .navbar {
+    justify-content: space-between;
   }
 
   .hero-overlay {
@@ -1066,20 +1313,39 @@ body {
    PRODUCTS PAGE
    ═══════════════════════════════════════ */
 
-.products-hero {
+/* Products Hero — sticky with video (like Omiya about) */
+.products-hero-container {
   position: relative;
-  min-height: 100vh;
-  padding: 120px 24px 60px;
-  display: flex;
-  align-items: flex-end;
-  background: #fff;
-  overflow: hidden;
+  height: 200vh;
 }
 
-.products-hero__content {
+.products-hero-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background: #fff;
+  padding: 100px 24px 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.products-hero-inner {
   max-width: 1600px;
   margin: 0 auto;
   width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.products-hero__title-sm {
+  font-family: var(--font-heading);
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: #1a1a1a;
+  margin: 0 0 16px;
 }
 
 .products-hero__label {
@@ -1095,13 +1361,13 @@ body {
 
 .products-hero__title {
   font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 9vw, 7rem);
+  font-size: clamp(2rem, 6vw, 5rem);
   font-weight: 800;
   line-height: 0.9;
   letter-spacing: -0.01em;
   text-transform: uppercase;
   color: #1a1a1a;
-  margin: 0 0 24px;
+  margin: 0;
 }
 
 .line-reveal {
@@ -1127,21 +1393,62 @@ body {
   transform: translateY(0);
 }
 
-.products-hero__subtitle {
+/* Video */
+.products-hero-video {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  min-height: 200px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(1.05);
+  transition: opacity 1500ms cubic-bezier(0.16, 1, 0.3, 1) 300ms,
+              transform 1500ms cubic-bezier(0.16, 1, 0.3, 1) 300ms;
+}
+
+.products-hero-video--loaded {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.products-hero-video__el {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Bottom row */
+.products-hero-bottom {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
+  gap: 16px;
+  padding-top: 8px;
+}
+
+.products-hero-bottom__left {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 1000ms ease-out 700ms, transform 1000ms ease-out 700ms;
+}
+
+.products-hero-bottom__text {
   font-family: var(--font-body);
-  font-size: 1.1rem;
-  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.95rem;
   line-height: 1.6;
-  max-width: 420px;
+  color: rgba(0, 0, 0, 0.7);
   margin: 0;
+  padding-top: 4px;
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 1000ms ease-out 500ms, transform 1000ms ease-out 500ms;
 }
 
-.products-hero__subtitle.fade-in-up {
-  opacity: 1;
-  transform: translateY(0);
+.fade-in-up {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 
 /* Product Section — 50/50 split */
@@ -1369,8 +1676,17 @@ body {
 
 /* Desktop Products */
 @media (min-width: 769px) {
-  .products-hero {
-    padding: 120px 48px 60px;
+  .products-hero-sticky {
+    padding: 120px 48px 24px;
+  }
+
+  .products-hero-title-row {
+    margin-bottom: 24px;
+  }
+
+  .products-hero-bottom {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
   }
 
   .product-section {
@@ -1583,10 +1899,11 @@ body {
   inset: 0;
   width: 100%;
   height: 100%;
-  background: #2d3a2d;
+  background-image: url('/hazelnutfield.png');
   background-attachment: fixed;
   background-position: center;
   background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .about-parallax-overlay {

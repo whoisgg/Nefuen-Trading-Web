@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import ArrowCTA from '../components/ArrowCTA'
 import { useTranslation } from '../i18n/LanguageContext'
 import gsap from 'gsap'
 
@@ -56,10 +57,7 @@ export default function AboutUs() {
             {/* CTA + Text row */}
             <div className="about-hero-bottom">
               <div ref={textLeftRef} className="about-hero-cta-col">
-                <Link to="/products" className="about-cta-link">
-                  <span className="about-cta-arrow">→</span>
-                  <span>{t('nav.productos')}</span>
-                </Link>
+                <ArrowCTA label={t('nav.productos')} to="/products" />
               </div>
               <p ref={textRightRef} className="about-hero-text">
                 {t('aboutus.hero.subtitle')}
@@ -92,7 +90,7 @@ export default function AboutUs() {
         </div>
         <div className="about-parallax-content">
           <p className="about-parallax-quote">
-            "{t('aboutus.mission.subtitle').substring(0, 120)}..."
+            "To produce, process and commercialize world-class European hazelnuts, vertically integrating the entire value chain"
           </p>
         </div>
       </section>

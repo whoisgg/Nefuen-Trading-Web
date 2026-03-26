@@ -1,46 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import ArrowCTA from '../components/ArrowCTA'
 import { useTranslation } from '../i18n/LanguageContext'
 
-function ArrowCTA({ label, to, reverse = false }: { label: string; to: string; reverse?: boolean }) {
-  const [isHovered, setIsHovered] = useState(false)
-
-  return (
-    <Link
-      to={to}
-      className={`product-arrow-cta ${reverse ? 'product-arrow-cta--reverse' : ''}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <span className="product-arrow-icon">
-        <svg className="product-arrow-brackets" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M1 8V1H8" className={isHovered ? 'bracket-active' : 'bracket-idle'} />
-          <path d="M20 1H27V8" className={isHovered ? 'bracket-active' : 'bracket-idle'} />
-          <path d="M1 20V27H8" className={isHovered ? 'bracket-active' : 'bracket-idle'} />
-          <path d="M20 27H27V20" className={isHovered ? 'bracket-active' : 'bracket-idle'} />
-        </svg>
-        <span className="product-arrow-swap">
-          <svg
-            className={`product-arrow-svg ${isHovered ? 'arrow-out' : 'arrow-visible'}`}
-            viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
-          >
-            <path d="M5 12h14M13 6l6 6-6 6" />
-          </svg>
-          <svg
-            className={`product-arrow-svg ${isHovered ? 'arrow-visible' : 'arrow-in'}`}
-            viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
-          >
-            <path d="M5 12h14M13 6l6 6-6 6" />
-          </svg>
-        </span>
-      </span>
-      <span className={`product-arrow-label ${isHovered ? 'label-shifted' : ''}`}>
-        {label}
-      </span>
-    </Link>
-  )
-}
 
 function ProductSection({
   title,
@@ -109,30 +72,39 @@ export default function Products() {
     <div className="page-container" style={{ overflow: 'auto', height: '100vh' }}>
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="products-hero">
-        <div className="products-hero__content">
-          <span className="products-hero__label">{t('products.hero.label')}</span>
+      {/* Hero Section — sticky with video */}
+      <div className="products-hero-container">
+        <section className="products-hero-sticky">
+          <div className="products-hero-inner">
+            {/* Label above video */}
+            <span className="products-hero__label">{t('products.hero.label')}</span>
 
-          {/* Desktop title - staggered lines */}
-          <h1 className="products-hero__title">
-            <span className="line-reveal">
-              <span className={`line-reveal__inner ${isLoaded ? 'revealed' : ''}`}>
-                {t('products.hero.title').split(' ').slice(0, 2).join(' ')}
-              </span>
-            </span>
-            <span className="line-reveal">
-              <span className={`line-reveal__inner line-reveal__inner--delay1 ${isLoaded ? 'revealed' : ''}`}>
-                {t('products.hero.title').split(' ').slice(2).join(' ')}
-              </span>
-            </span>
-          </h1>
+            {/* Video */}
+            <div className={`products-hero-video ${isLoaded ? 'products-hero-video--loaded' : ''}`}>
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="products-hero-video__el"
+              >
+                <source src="/avellanosproduct.mp4" type="video/mp4" />
+              </video>
+            </div>
 
-          <p className={`products-hero__subtitle ${isLoaded ? 'fade-in-up' : ''}`}>
-            {t('products.hero.subtitle')}
-          </p>
-        </div>
-      </section>
+            {/* Bottom: title left + subtitle right, CTA below */}
+            <div className="products-hero-bottom">
+              <div className={`products-hero-bottom__left ${isLoaded ? 'fade-in-up' : ''}`}>
+                <h1 className="products-hero__title-sm">{t('products.hero.title')}</h1>
+                <ArrowCTA label={t('products.cta.button')} to="/contact" />
+              </div>
+              <p className={`products-hero-bottom__text ${isLoaded ? 'fade-in-up' : ''}`}>
+                {t('products.hero.subtitle')}
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
 
       {/* Spacer */}
       <div style={{ height: '4rem', background: '#fff' }} />
