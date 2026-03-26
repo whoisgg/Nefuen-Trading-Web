@@ -781,16 +781,9 @@ body {
   display: flex;
   align-items: center;
   padding: 0 10%;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
+  scroll-snap-align: none;
+  scroll-snap-stop: normal;
   position: relative;
-}
-
-@media (max-width: 767px) {
-  .gallery-item-wrapper {
-    scroll-snap-align: none;
-    scroll-snap-stop: normal;
-  }
 }
 
 .gallery-item-wrapper.align-left {

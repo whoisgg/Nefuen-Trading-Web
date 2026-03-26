@@ -112,7 +112,7 @@ export default function Home() {
     const handleScroll = (direction: 'down' | 'up', fromGalleryBoundary = false) => {
       if (isAnimating.current) return
       // Gallery boundary exits have their own protection, skip cooldown for them
-      if (!fromGalleryBoundary && Date.now() - scrollLockAt.current < 2000) return
+      if (!fromGalleryBoundary && Date.now() - scrollLockAt.current < 800) return
       if (direction === 'down') goToSection(currentSection.current + 1)
       else goToSection(currentSection.current - 1)
     }

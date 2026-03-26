@@ -30,7 +30,7 @@ export default function FrameSequence() {
           overflowY: 'auto',
           overflowX: 'hidden',
           background: 'transparent',
-          scrollSnapType: window.innerWidth < 768 ? 'none' : 'y mandatory',
+          scrollSnapType: 'none',
           overscrollBehavior: 'contain',
           WebkitOverflowScrolling: 'touch',
         }}
