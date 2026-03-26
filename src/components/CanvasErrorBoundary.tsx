@@ -7,12 +7,14 @@ interface Props {
 
 interface State {
   hasError: boolean
+  errorKey: number
 }
 
 export default class CanvasErrorBoundary extends Component<Props, State> {
-  state: State = { hasError: false }
+  state: State = { hasError: false, errorKey: 0 }
+  private retryTimeout: ReturnType<typeof setTimeout> | null = null
 
-  static getDerivedStateFromError(): State {
+  static getDerivedStateFromError(): Partial<State> {
     return { hasError: true }
   }
 
@@ -23,15 +25,31 @@ export default class CanvasErrorBoundary extends Component<Props, State> {
       error.message?.includes('unreachable') ||
       error.message?.includes('unsafe aliasing')
     ) {
+      // Auto-recover after Rapier crash: re-mount the scene after a delay
+      if (this.retryTimeout) clearTimeout(this.retryTimeout)
+      this.retryTimeout = setTimeout(() => {
+        this.setState(prev => ({
+          hasError: false,
+          errorKey: prev.errorKey + 1
+        }))
+      }, 1500)
       return
     }
     console.error('3D Scene error:', error)
+  }
+
+  componentWillUnmount() {
+    if (this.retryTimeout) clearTimeout(this.retryTimeout)
   }
 
   render() {
     if (this.state.hasError) {
       return this.props.fallback ?? null
     }
-    return this.props.children
+    return (
+      <div key={this.state.errorKey} style={{ width: '100%', height: '100%' }}>
+        {this.props.children}
+      </div>
+    )
   }
 }
