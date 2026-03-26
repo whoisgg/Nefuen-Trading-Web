@@ -1,4 +1,4 @@
-import { useMemo, useRef, useEffect } from 'react'
+import { useState, useMemo, useRef, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { RigidBody } from '@react-three/rapier'
 import { cameraProgress } from './Scene'
@@ -111,10 +111,17 @@ const INSHELL_TEXTURES = [
   createInshellTexture(0.4),
 ]
 
-// --- Global Shared Assets ---
+// --- Global Shared Assets (Singleton) ---
 let sharedGeometry: THREE.BufferGeometry | null = null
 let sharedKernelMaterial: THREE.MeshStandardMaterial | null = null
 let sharedInshellMaterials: THREE.MeshPhysicalMaterial[] = []
+let assetsInitialized = false
+const assetSubscribers = new Set<() => void>()
+
+function notifyAssetSubscribers() {
+  assetsInitialized = true
+  assetSubscribers.forEach(sub => sub())
+}
 
 function initializeSharedAssets(fbx: THREE.Group, colorMap: THREE.Texture, normalMap: THREE.Texture, dispMap: THREE.Texture) {
   if (sharedGeometry) return
@@ -147,6 +154,8 @@ function initializeSharedAssets(fbx: THREE.Group, colorMap: THREE.Texture, norma
     normalMap: normalMap,
     normalScale: new THREE.Vector2(0.6, 0.6),
   }))
+
+  notifyAssetSubscribers()
 }
 
 interface HazelnutProps {
@@ -176,6 +185,8 @@ export default function Hazelnut({
 }: HazelnutProps) {
   const rigidBodyRef = useRef<any>(null)
   const meshGroupRef = useRef<THREE.Group>(null)
+  const [ready, setReady] = useState(assetsInitialized)
+
   const fbx = useFBX('/models/hazelnut/BB_031_huzelnut.fbx')
   
   const [colorMap, normalMap, dispMap] = useTexture([
@@ -183,6 +194,14 @@ export default function Hazelnut({
     '/models/hazelnut/1k_textures/BB_031_hazelnut_01_normal.jpg',
     '/models/hazelnut/1k_textures/BB_031_hazelnut_01_disp.jpg',
   ])
+
+  // Subscription to global assets
+  useEffect(() => {
+    if (assetsInitialized) return
+    const sub = () => setReady(true)
+    assetSubscribers.add(sub)
+    return () => { assetSubscribers.delete(sub) }
+  }, [])
 
   // Initialize shared assets once
   useEffect(() => {
@@ -273,9 +292,9 @@ export default function Hazelnut({
   const content = (
     <group ref={meshGroupRef}>
       <group ref={trackerRef} />
-      {sharedGeometry && material && (
+      {ready && material && (
         <mesh 
-          geometry={sharedGeometry} 
+          geometry={sharedGeometry!} 
           material={material} 
           castShadow={castShadow} 
           receiveShadow={true} 
