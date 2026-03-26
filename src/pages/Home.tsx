@@ -121,11 +121,13 @@ export default function Home() {
           const { scrollTop, scrollHeight, clientHeight } = scrollContainer
           const isAtBottom = Math.abs((scrollTop + clientHeight) - scrollHeight) <= 2
           const isAtTop = scrollTop <= 2
+          // Not at boundary — allow native gallery scroll, reset flag
           if (e.deltaY > 0 && !isAtBottom) { galleryBoundaryAt.current = 0; return }
           if (e.deltaY < 0 && !isAtTop) { galleryBoundaryAt.current = 0; return }
+          // At boundary — absorb scrolls for 500ms then allow transition
           const now = Date.now()
           if (galleryBoundaryAt.current === 0) galleryBoundaryAt.current = now
-          if (now - galleryBoundaryAt.current < 600) { e.preventDefault(); return }
+          if (now - galleryBoundaryAt.current < 500) { e.preventDefault(); return }
           galleryBoundaryAt.current = 0
         }
       }
@@ -164,10 +166,18 @@ export default function Home() {
           const { scrollTop, scrollHeight, clientHeight } = scrollContainer
           const isAtTop = scrollTop <= 15
           const isAtBottom = (scrollTop + clientHeight) >= (scrollHeight - 15)
-          // Not at boundary — stay in gallery
-          if (deltaY > threshold && !isAtBottom) return
-          if (deltaY < -threshold && !isAtTop) return
-          // At boundary — let it through immediately on touch (no dwell timer)
+          // Not at boundary — stay in gallery and mark as not at boundary
+          if (deltaY > threshold && !isAtBottom) { galleryBoundaryAt.current = 0; return }
+          if (deltaY < -threshold && !isAtTop) { galleryBoundaryAt.current = 0; return }
+          // At boundary — absorb first swipe, allow second
+          if ((deltaY > threshold && isAtBottom) || (deltaY < -threshold && isAtTop)) {
+            if (galleryBoundaryAt.current === 0) {
+              galleryBoundaryAt.current = Date.now()
+              return
+            }
+            // Second swipe at boundary — allow transition
+            galleryBoundaryAt.current = 0
+          }
         }
       }
       if (deltaY > threshold) handleScroll('down')
