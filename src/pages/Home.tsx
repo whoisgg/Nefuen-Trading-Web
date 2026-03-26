@@ -109,10 +109,10 @@ export default function Home() {
     let touchCurrentY = 0
     let wasAtBoundaryOnStart = false
 
-    const handleScroll = (direction: 'down' | 'up') => {
+    const handleScroll = (direction: 'down' | 'up', fromGalleryBoundary = false) => {
       if (isAnimating.current) return
-      // Block scroll for 2s after last animation ended
-      if (Date.now() - scrollLockAt.current < 2000) return
+      // Gallery boundary exits have their own protection, skip cooldown for them
+      if (!fromGalleryBoundary && Date.now() - scrollLockAt.current < 2000) return
       if (direction === 'down') goToSection(currentSection.current + 1)
       else goToSection(currentSection.current - 1)
     }
@@ -195,8 +195,9 @@ export default function Home() {
           }
         }
       }
-      if (deltaY > threshold) handleScroll('down')
-      else if (deltaY < -threshold) handleScroll('up')
+      const fromGallery = currentSection.current === 3 && wasAtBoundaryOnStart
+      if (deltaY > threshold) handleScroll('down', fromGallery)
+      else if (deltaY < -threshold) handleScroll('up', fromGallery)
     }
 
     const handleKeyDown = (e: KeyboardEvent) => {
