@@ -109,7 +109,7 @@ export default function Home() {
     let touchCurrentY = 0
 
     const handleScroll = (direction: 'down' | 'up') => {
-      if (isAnimating.current || Date.now() - scrollLockAt.current < 800) return
+      if (isAnimating.current || Date.now() - scrollLockAt.current < 1200) return
       if (direction === 'down') goToSection(currentSection.current + 1)
       else goToSection(currentSection.current - 1)
     }
@@ -161,7 +161,7 @@ export default function Home() {
 
     const handleTouchEnd = () => {
       const deltaY = touchStartY - touchCurrentY
-      const threshold = 50
+      const threshold = 80
       if (currentSection.current === 3) {
         const scrollContainer = document.querySelector('.gallery-scroll-container')
         if (scrollContainer) {
