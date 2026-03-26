@@ -237,13 +237,11 @@ export default function Home() {
   return (
     <>
       <div className="canvas-container">
-        {activeSection <= 1 ? (
-          <CanvasErrorBoundary>
-            <Canvas camera={{ position: [0, 5, 15], fov: 45 }}>
-              <Scene onLoaded={() => setSceneLoaded(true)} />
-            </Canvas>
-          </CanvasErrorBoundary>
-        ) : null}
+        <CanvasErrorBoundary>
+          <Canvas camera={{ position: [0, 5, 15], fov: 45 }}>
+            <Scene onLoaded={() => setSceneLoaded(true)} />
+          </Canvas>
+        </CanvasErrorBoundary>
       </div>
 
       {showUI && (
