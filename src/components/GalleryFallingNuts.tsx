@@ -63,13 +63,6 @@ export default function GalleryFallingNuts() {
     }
   }, [])
 
-  // Clear array safely when in the final section
-  useEffect(() => {
-    if (cameraProgress.current > 0.8 && hazelnuts.length > 0) {
-      setHazelnuts([])
-    }
-  }, [cameraProgress.current, hazelnuts.length])
-
   return (
     <>
       {hazelnuts.map((nut) => (

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useFrame } from '@react-three/fiber'
 import Hazelnut from './Hazelnut'
 import { cameraProgress } from './Scene'
 
@@ -54,12 +55,12 @@ export default function FinalFallingNuts() {
     }
   }, [])
 
-  // Clear array safely
-  useEffect(() => {
+  // Hide when in the hero section — deferred to avoid Rapier concurrent access
+  useFrame(() => {
     if (cameraProgress.current < 0.3 && hazelnuts.length > 0) {
       setHazelnuts([])
     }
-  }, [cameraProgress.current, hazelnuts.length])
+  })
 
   return (
     <>
