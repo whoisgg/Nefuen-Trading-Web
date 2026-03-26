@@ -124,12 +124,7 @@ export default function Home() {
           
           if (e.deltaY > 0 && !isAtBottom) { galleryBoundaryAt.current = 0; return }
           if (e.deltaY < 0 && !isAtTop) { galleryBoundaryAt.current = 0; return }
-          
-          const now = Date.now()
-          if (galleryBoundaryAt.current === 0) galleryBoundaryAt.current = now
-          if (now - galleryBoundaryAt.current < 400) { e.preventDefault(); return }
-          // If we passed the 500ms, keep galleryBoundaryAt set so it continues to work
-          // but reset handled below in handleScroll
+          // Skip lockout delay for smoother feel as requested
         }
       }
       e.preventDefault()
@@ -175,13 +170,7 @@ export default function Home() {
           const isAtBottom = (scrollTop + clientHeight) >= (scrollHeight - 10)
           
           if ((deltaY > threshold && isAtBottom) || (deltaY < -threshold && isAtTop)) {
-            const now = Date.now()
-            // If they just arrived at boundary with this swipe, start timer and block
-            if (galleryBoundaryAt.current === 0) {
-              galleryBoundaryAt.current = now
-              return
-            }
-            if (now - galleryBoundaryAt.current < 400) return
+            // Skip lockout delay for smoother feel as requested
             
             // Allow transition
             galleryBoundaryAt.current = 0

@@ -215,6 +215,8 @@ export default function Hazelnut({
       let rotY = rotation[1]
       let rotZ = rotation[2]
 
+      const isMobile = window.innerWidth < 768
+      const responsiveScale = isMobile ? 1.8 : 3.0
       const currentProgress = cameraProgress.current
 
       // Determine final position based on camera progress
@@ -222,7 +224,7 @@ export default function Hazelnut({
         const t = Math.max(0, currentProgress / 0.333)
         const ease = t * t * (3 - 2 * t)
         
-        scale = 3.0
+        scale = responsiveScale
         x = THREE.MathUtils.lerp(position[0], 4.5, ease)
         y = THREE.MathUtils.lerp(position[1], 0.6, ease)
         z = THREE.MathUtils.lerp(position[2], -1.4, ease)
@@ -233,7 +235,7 @@ export default function Hazelnut({
         rotZ = THREE.MathUtils.lerp(rotation[2], 0, ease)
       } else {
         const t = Math.min(1, (currentProgress - 0.333) / 0.05)
-        scale = THREE.MathUtils.lerp(3.0, 0, t)
+        scale = THREE.MathUtils.lerp(responsiveScale, 0, t)
         x = 4.5
         y = 0.6
         z = -1.4
