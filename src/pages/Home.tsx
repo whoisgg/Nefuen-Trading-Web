@@ -107,6 +107,7 @@ export default function Home() {
 
     let touchStartY = 0
     let touchCurrentY = 0
+    let wasAtBoundaryOnStart = false
 
     const handleScroll = (direction: 'down' | 'up') => {
       if (isAnimating.current) return
@@ -141,6 +142,16 @@ export default function Home() {
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0].clientY
       touchCurrentY = touchStartY
+      wasAtBoundaryOnStart = false
+      if (currentSection.current === 3) {
+        const sc = document.querySelector('.gallery-scroll-container')
+        if (sc) {
+          const { scrollTop, scrollHeight, clientHeight } = sc
+          const atTop = scrollTop <= 5
+          const atBottom = (scrollTop + clientHeight) >= (scrollHeight - 5)
+          wasAtBoundaryOnStart = atTop || atBottom
+        }
+      }
     }
 
     const handleTouchMove = (e: TouchEvent) => {
@@ -168,21 +179,18 @@ export default function Home() {
           const { scrollTop, scrollHeight, clientHeight } = scrollContainer
           const isAtTop = scrollTop <= 5
           const isAtBottom = (scrollTop + clientHeight) >= (scrollHeight - 5)
-          // Not at boundary — stay in gallery and reset boundary flag
+          // Not at boundary at end — stay in gallery
           if (deltaY > threshold && !isAtBottom) { galleryBoundaryAt.current = 0; return }
           if (deltaY < -threshold && !isAtTop) { galleryBoundaryAt.current = 0; return }
-          // At boundary — absorb first swipe, allow second (must be within 3s)
+          // Must have been at boundary BEFORE this swipe started
+          // This prevents scroll-to-last-card from auto-transitioning
+          if (!wasAtBoundaryOnStart) {
+            return
+          }
+          // At boundary and was at boundary on start — allow transition
           if ((deltaY > threshold && isAtBottom) || (deltaY < -threshold && isAtTop)) {
-            const now = Date.now()
-            if (galleryBoundaryAt.current === 0 || (now - galleryBoundaryAt.current) > 3000) {
-              // First swipe at boundary OR stale flag — absorb and reset
-              galleryBoundaryAt.current = now
-              return
-            }
-            // Second swipe at boundary within 3s — allow transition
-            galleryBoundaryAt.current = 0
+            // pass through to handleScroll below
           } else {
-            // Swipe too small at boundary — don't count
             return
           }
         }
