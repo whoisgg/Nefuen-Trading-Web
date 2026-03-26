@@ -86,6 +86,7 @@ export default function AboutUs() {
       {/* Parallax Quote */}
       <section className="about-parallax">
         <div className="about-parallax-bg">
+          <img src="/hazelnutfield.png" alt="" className="about-parallax-img" />
           <div className="about-parallax-overlay" />
         </div>
         <div className="about-parallax-content">
