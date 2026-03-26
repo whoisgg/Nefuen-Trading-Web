@@ -51,7 +51,7 @@ function CameraRig() {
       angle = THREE.MathUtils.lerp(0, Math.PI * 0.5, ease)
       radius = THREE.MathUtils.lerp(15, isPortrait ? 7 : 8, ease)
       y = THREE.MathUtils.lerp(5, 2, ease)
-      lookX = THREE.MathUtils.lerp(0, isPortrait ? 4 : 3, ease)
+      lookX = THREE.MathUtils.lerp(0, isPortrait ? 8 : 3, ease)
       lookY = THREE.MathUtils.lerp(0, 0, ease)
     } else if (progress < 0.666) {
       const t = (progress - 0.333) / 0.333
@@ -59,7 +59,7 @@ function CameraRig() {
       angle = THREE.MathUtils.lerp(Math.PI * 0.5, Math.PI, ease)
       radius = THREE.MathUtils.lerp(isPortrait ? 7 : 8, isPortrait ? 5.5 : 6, ease)
       y = THREE.MathUtils.lerp(2, 1, ease)
-      lookX = THREE.MathUtils.lerp(isPortrait ? 3 : 3, isPortrait ? 0 : -3, ease)
+      lookX = THREE.MathUtils.lerp(isPortrait ? 8 : 3, isPortrait ? 0 : -3, ease)
       lookY = THREE.MathUtils.lerp(0, 0, ease)
     } else {
       const t = (progress - 0.666) / 0.334
