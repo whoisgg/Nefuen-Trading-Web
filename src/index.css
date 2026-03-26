@@ -783,6 +783,13 @@ body {
   padding: 0 10%;
   scroll-snap-align: start;
   scroll-snap-stop: always;
+}
+
+@media (max-width: 767px) {
+  .gallery-item-wrapper {
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
   position: relative;
 }
 
