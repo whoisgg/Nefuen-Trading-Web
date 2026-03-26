@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import Hazelnut from './Hazelnut'
@@ -12,8 +12,13 @@ import { Physics } from '@react-three/rapier'
 // Shared progress value — updated by App via window event
 export let targetProgress = 0
 export const cameraProgress = { current: 0 }
+let currentActiveSection = 0
+
 window.addEventListener('section-change', ((e: CustomEvent) => {
   targetProgress = e.detail.progress
+  if (e.detail.section !== undefined) {
+    currentActiveSection = e.detail.section
+  }
 }) as EventListener)
 
 function CameraRig() {
@@ -64,6 +69,33 @@ function CameraRig() {
   return null
 }
 
+// Track active section inside R3F to conditionally render physics groups
+function useSectionTracker() {
+  const [section, setSection] = useState(currentActiveSection)
+
+  useFrame(() => {
+    if (currentActiveSection !== section) {
+      setSection(currentActiveSection)
+    }
+  })
+
+  return section
+}
+
+function PhysicsContent() {
+  const section = useSectionTracker()
+
+  return (
+    <>
+      <Floor />
+      {/* Only mount the physics group for current section range */}
+      {section <= 1 && <HeroFallingNuts />}
+      {section >= 2 && section <= 3 && <GalleryFallingNuts />}
+      {section >= 4 && <FinalFallingNuts />}
+    </>
+  )
+}
+
 export default function Scene({ onLoaded }: { onLoaded?: () => void }) {
   useEffect(() => {
     if (onLoaded) onLoaded()
@@ -74,7 +106,7 @@ export default function Scene({ onLoaded }: { onLoaded?: () => void }) {
       <CameraRig />
       <color attach="background" args={['#ffffff']} />
       <fog attach="fog" args={['#ffffff', 10, 40]} />
-      
+
       <directionalLight
         position={[4, 10, 2]}
         intensity={2.8}
@@ -84,10 +116,7 @@ export default function Scene({ onLoaded }: { onLoaded?: () => void }) {
 
       <Hazelnut position={[0, 0, 0]} isHero={true} type="inshell" />
       <Physics timeStep="vary">
-        <Floor />
-        <HeroFallingNuts />
-        <GalleryFallingNuts />
-        <FinalFallingNuts />
+        <PhysicsContent />
       </Physics>
     </>
   )
