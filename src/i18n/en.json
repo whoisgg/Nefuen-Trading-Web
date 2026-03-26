@@ -14,7 +14,7 @@
   "transition.label": "NEFUEN TRADING",
   "transition.title": "Sustainable\nProcesses",
   "transition.body": "We implement precision agriculture and use 100% clean energy to minimize our carbon footprint, protecting the native ecosystem.",
-  "transition.cta": "SEE MORE ↓",
+  "transition.cta": "SEE MORE \u2193",
 
   "gallery.title": "OUR SERVICES",
   "gallery.01.heading": "Harvest\n& Selection",
@@ -34,11 +34,68 @@
   "products.subtitle": "Our Catalog",
   "products.body": "Coming soon...",
 
+  "products.hero.label": "PRODUCTS",
+  "products.hero.title": "Premium Hazelnuts",
+  "products.hero.subtitle": "From the valleys of North Patagonia to the world's finest markets.",
+
+  "products.grid.label": "OUR CATALOG",
+  "products.grid.title": "Product Range",
+  "products.grid.subtitle": "Explore our complete line of hazelnut-based products.",
+
+  "products.item.inshell.name": "In-Shell Hazelnuts",
+  "products.item.inshell.desc": "Whole hazelnuts in their natural shell.",
+  "products.item.shelled.name": "Shelled Hazelnuts",
+  "products.item.shelled.desc": "Carefully shelled, ready to use.",
+  "products.item.blanched.name": "Blanched Hazelnuts",
+  "products.item.blanched.desc": "Skin removed for a smooth finish.",
+  "products.item.roasted.name": "Roasted Hazelnuts",
+  "products.item.roasted.desc": "With and without skin.",
+  "products.item.paste.name": "Hazelnut Paste",
+  "products.item.paste.desc": "Refined and unrefined options.",
+  "products.item.cocoa.name": "Cocoa Paste",
+  "products.item.cocoa.desc": "Premium cocoa paste blend.",
+  "products.item.praline.name": "Praline",
+  "products.item.praline.desc": "Caramelized hazelnut praline.",
+  "products.item.dragees.name": "Dragees",
+  "products.item.dragees.desc": "Coated hazelnut confections.",
+
+  "products.cert.label": "QUALITY",
+  "products.cert.title": "Certifications",
+  "products.cert.subtitle": "BRC Food, Global G.A.P., and international export standards.",
+
+  "products.cta.label": "GET IN TOUCH",
+  "products.cta.title": "Interested?",
+  "products.cta.subtitle": "Contact us for pricing, samples, and custom orders.",
+
   "contact.title": "CONTACT",
   "contact.subtitle": "Get in Touch",
   "contact.body": "Coming soon...",
 
   "aboutus.title": "ABOUT US",
   "aboutus.subtitle": "Our Story",
-  "aboutus.body": "Coming soon..."
+  "aboutus.body": "Coming soon...",
+
+  "aboutus.hero.label": "ABOUT US",
+  "aboutus.hero.title": "Nefuen Trading",
+  "aboutus.hero.subtitle": "Premium hazelnuts from the heart of North Patagonia.",
+
+  "aboutus.story.label": "OUR STORY",
+  "aboutus.story.title": "How It Started",
+  "aboutus.story.subtitle": "A legacy of hazelnut cultivation rooted in southern Chile.",
+
+  "aboutus.vision.label": "OUR VISION",
+  "aboutus.vision.title": "Looking Ahead",
+  "aboutus.vision.subtitle": "Pioneering sustainable hazelnut production for global markets.",
+
+  "aboutus.team.label": "OUR TEAM",
+  "aboutus.team.title": "The People",
+  "aboutus.team.subtitle": "A dedicated team of agronomists, engineers, and traders.",
+
+  "aboutus.grupo.label": "OUR GROUP",
+  "aboutus.grupo.title": "Part of Grupo Hijuelas",
+  "aboutus.grupo.subtitle": "Backed by decades of agricultural expertise in Chile.",
+
+  "aboutus.cta.label": "GET IN TOUCH",
+  "aboutus.cta.title": "Work With Us",
+  "aboutus.cta.subtitle": "Let's explore how we can supply your business."
 }

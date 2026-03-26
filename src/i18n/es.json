@@ -8,37 +8,94 @@
   "hero.cta": "NUESTROS SERVICIOS",
 
   "services.label": "LO QUE HACEMOS",
-  "services.title": "DE LA GENÉTICA AL MERCADO",
-  "services.body": "Desarrollamos avellanas europeas desde el hemisferio sur, integrando innovación genética y procesos de alta precisión para los mercados más exigentes del mundo.",
+  "services.title": "DE LA GEN\u00c9TICA AL MERCADO",
+  "services.body": "Desarrollamos avellanas europeas desde el hemisferio sur, integrando innovaci\u00f3n gen\u00e9tica y procesos de alta precisi\u00f3n para los mercados m\u00e1s exigentes del mundo.",
 
   "transition.label": "NEFUEN TRADING",
   "transition.title": "Procesos\nSostenibles",
-  "transition.body": "Implementamos agricultura de precisión y utilizamos energía 100% limpia para reducir al máximo nuestra huella de carbono, protegiendo el ecosistema nativo.",
-  "transition.cta": "VER MÁS ↓",
+  "transition.body": "Implementamos agricultura de precisi\u00f3n y utilizamos energ\u00eda 100% limpia para reducir al m\u00e1ximo nuestra huella de carbono, protegiendo el ecosistema nativo.",
+  "transition.cta": "VER M\u00c1S \u2193",
 
   "gallery.title": "NUESTROS SERVICIOS",
-  "gallery.01.heading": "Cosecha\ny Selección",
-  "gallery.01.body": "Recolectamos avellanas en su punto óptimo de madurez en los valles del norte de la Patagonia.",
+  "gallery.01.heading": "Cosecha\ny Selecci\u00f3n",
+  "gallery.01.body": "Recolectamos avellanas en su punto \u00f3ptimo de madurez en los valles del norte de la Patagonia.",
   "gallery.02.heading": "Secado\ny Limpieza",
   "gallery.02.body": "Secado controlado para alcanzar la humedad ideal, seguido de limpieza profunda.",
   "gallery.03.heading": "Descascarado\ny Calibrado",
-  "gallery.03.body": "Clasificación por calibre y peso que garantiza uniformidad para los estándares de exportación.",
-  "gallery.04.heading": "Exportación\nCertificada",
-  "gallery.04.body": "Embalaje BRC Food y Global G.A.P., listo para los mercados de Europa, Asia y Norteamérica.",
+  "gallery.03.body": "Clasificaci\u00f3n por calibre y peso que garantiza uniformidad para los est\u00e1ndares de exportaci\u00f3n.",
+  "gallery.04.heading": "Exportaci\u00f3n\nCertificada",
+  "gallery.04.body": "Embalaje BRC Food y Global G.A.P., listo para los mercados de Europa, Asia y Norteam\u00e9rica.",
 
   "final.title": "Alcance Global",
-  "final.body": "Desde los fértiles valles del sur de Chile hasta los paladares y mercados más exigentes de Europa, Asia y Norteamérica.",
-  "final.cta": "CONTÁCTANOS",
+  "final.body": "Desde los f\u00e9rtiles valles del sur de Chile hasta los paladares y mercados m\u00e1s exigentes de Europa, Asia y Norteam\u00e9rica.",
+  "final.cta": "CONT\u00c1CTANOS",
 
   "products.title": "PRODUCTOS",
-  "products.subtitle": "Nuestro Catálogo",
-  "products.body": "Próximamente...",
+  "products.subtitle": "Nuestro Cat\u00e1logo",
+  "products.body": "Pr\u00f3ximamente...",
+
+  "products.hero.label": "PRODUCTOS",
+  "products.hero.title": "Avellanas Premium",
+  "products.hero.subtitle": "Desde los valles del norte de la Patagonia a los mejores mercados del mundo.",
+
+  "products.grid.label": "NUESTRO CAT\u00c1LOGO",
+  "products.grid.title": "L\u00ednea de Productos",
+  "products.grid.subtitle": "Explora nuestra l\u00ednea completa de productos a base de avellana.",
+
+  "products.item.inshell.name": "Avellanas con C\u00e1scara",
+  "products.item.inshell.desc": "Avellanas enteras en su c\u00e1scara natural.",
+  "products.item.shelled.name": "Avellanas sin C\u00e1scara",
+  "products.item.shelled.desc": "Cuidadosamente descascaradas, listas para usar.",
+  "products.item.blanched.name": "Avellanas Blanqueadas",
+  "products.item.blanched.desc": "Piel removida para un acabado suave.",
+  "products.item.roasted.name": "Avellanas Tostadas",
+  "products.item.roasted.desc": "Con y sin piel.",
+  "products.item.paste.name": "Pasta de Avellana",
+  "products.item.paste.desc": "Opciones refinada y no refinada.",
+  "products.item.cocoa.name": "Pasta de Cacao",
+  "products.item.cocoa.desc": "Mezcla premium de pasta de cacao.",
+  "products.item.praline.name": "Pralin\u00e9",
+  "products.item.praline.desc": "Pralin\u00e9 de avellana caramelizada.",
+  "products.item.dragees.name": "Grageas",
+  "products.item.dragees.desc": "Confites de avellana recubiertos.",
+
+  "products.cert.label": "CALIDAD",
+  "products.cert.title": "Certificaciones",
+  "products.cert.subtitle": "BRC Food, Global G.A.P. y est\u00e1ndares internacionales de exportaci\u00f3n.",
+
+  "products.cta.label": "CONT\u00c1CTANOS",
+  "products.cta.title": "\u00bfInteresado?",
+  "products.cta.subtitle": "Cont\u00e1ctanos para precios, muestras y pedidos personalizados.",
 
   "contact.title": "CONTACTO",
-  "contact.subtitle": "Contáctanos",
-  "contact.body": "Próximamente...",
+  "contact.subtitle": "Cont\u00e1ctanos",
+  "contact.body": "Pr\u00f3ximamente...",
 
   "aboutus.title": "NOSOTROS",
   "aboutus.subtitle": "Nuestra Historia",
-  "aboutus.body": "Próximamente..."
+  "aboutus.body": "Pr\u00f3ximamente...",
+
+  "aboutus.hero.label": "NOSOTROS",
+  "aboutus.hero.title": "Nefuen Trading",
+  "aboutus.hero.subtitle": "Avellanas premium desde el coraz\u00f3n del norte de la Patagonia.",
+
+  "aboutus.story.label": "NUESTRA HISTORIA",
+  "aboutus.story.title": "C\u00f3mo Comenz\u00f3",
+  "aboutus.story.subtitle": "Un legado de cultivo de avellanas enraizado en el sur de Chile.",
+
+  "aboutus.vision.label": "NUESTRA VISI\u00d3N",
+  "aboutus.vision.title": "Mirando al Futuro",
+  "aboutus.vision.subtitle": "Pioneros en producci\u00f3n sostenible de avellanas para mercados globales.",
+
+  "aboutus.team.label": "NUESTRO EQUIPO",
+  "aboutus.team.title": "Las Personas",
+  "aboutus.team.subtitle": "Un equipo dedicado de agr\u00f3nomos, ingenieros y comerciantes.",
+
+  "aboutus.grupo.label": "NUESTRO GRUPO",
+  "aboutus.grupo.title": "Parte de Grupo Hijuelas",
+  "aboutus.grupo.subtitle": "Respaldados por d\u00e9cadas de experiencia agr\u00edcola en Chile.",
+
+  "aboutus.cta.label": "CONT\u00c1CTANOS",
+  "aboutus.cta.title": "Trabaja Con Nosotros",
+  "aboutus.cta.subtitle": "Exploremos c\u00f3mo podemos abastecer tu negocio."
 }
