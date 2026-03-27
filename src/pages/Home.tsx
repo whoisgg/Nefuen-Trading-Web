@@ -97,6 +97,17 @@ export default function Home() {
     return () => { clearTimeout(timer) }
   }, [sceneLoaded])
 
+  // Reset to section 0 on mount
+  useEffect(() => {
+    currentSection.current = 0
+    setActiveSection(0)
+    isAnimating.current = false
+    window.dispatchEvent(new CustomEvent('section-change', { detail: { section: 0, progress: 0 } }))
+    if (wrapperRef.current) {
+      wrapperRef.current.style.transform = 'translateY(0)'
+    }
+  }, [])
+
   // Restore overflow when leaving home
   useEffect(() => {
     return () => { document.body.style.overflow = '' }
