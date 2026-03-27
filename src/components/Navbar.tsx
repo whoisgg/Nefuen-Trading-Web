@@ -7,8 +7,23 @@ interface NavbarProps {
 }
 
 function AnimatedLink({ to, children }: { to: string; children: React.ReactNode }) {
+  const location = useLocation()
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (location.pathname === to) {
+      e.preventDefault()
+      // Scroll the page container back to top
+      const container = document.querySelector('.page-container')
+      if (container) {
+        container.scrollTo({ top: 0, behavior: 'smooth' })
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    }
+  }
+
   return (
-    <Link to={to} className="nav-link-animated">
+    <Link to={to} className="nav-link-animated" onClick={handleClick}>
       <span className="nav-link-top">{children}</span>
       <span className="nav-link-bottom">{children}</span>
     </Link>
@@ -85,7 +100,15 @@ export default function Navbar({ visible = true }: NavbarProps) {
                   to={item.to}
                   className={`mobile-menu__link ${isActive ? 'mobile-menu__link--active' : ''}`}
                   style={{ transitionDelay: `${i * 50}ms` }}
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={(e) => {
+                    setIsMenuOpen(false)
+                    if (isActive) {
+                      e.preventDefault()
+                      const container = document.querySelector('.page-container')
+                      if (container) container.scrollTo({ top: 0, behavior: 'smooth' })
+                      else window.scrollTo({ top: 0, behavior: 'smooth' })
+                    }
+                  }}
                 >
                   {item.label}
                 </Link>
