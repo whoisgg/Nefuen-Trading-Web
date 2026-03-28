@@ -1484,7 +1484,7 @@ body {
 
 /* Product Section — 50/50 split */
 .product-section {
-  min-height: 100vh;
+  min-height: 50vh;
   display: flex;
   flex-direction: column;
   padding: 0 2rem;
@@ -1502,7 +1502,7 @@ body {
 
 .product-section__image {
   width: 100%;
-  height: 50vh;
+  height: 30vh;
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -1542,7 +1542,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 48px 24px;
+  padding: 32px 24px;
 }
 
 .product-section__title {
@@ -1748,7 +1748,7 @@ body {
   .product-section__image {
     width: 50%;
     height: auto;
-    min-height: 100vh;
+    min-height: 50vh;
   }
 
   .product-section__content {

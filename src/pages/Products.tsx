@@ -131,7 +131,7 @@ export default function Products() {
           title={t('products.item.roasted.name')}
           subtitle={t('products.grid.label')}
           description={t('products.item.roasted.desc')}
-          image="/valor.webp"
+          image="/valor2.webp"
           reverse
         />
       </section>
