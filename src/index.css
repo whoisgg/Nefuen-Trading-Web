@@ -1331,7 +1331,7 @@ body {
   top: 0;
   height: 100vh;
   background: #fff;
-  padding: 100px 24px 24px;
+  padding: 100px 4% 24px;
   display: flex;
   flex-direction: column;
 }
@@ -1343,12 +1343,11 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 0 2rem;
 }
 
 @media (max-width: 768px) {
   .products-hero-inner {
-    padding: 0 1.25rem;
+    padding: 0;
   }
   .products-hero-video {
     height: 55vh;
@@ -1421,7 +1420,7 @@ body {
 .products-hero-container {
   max-height: 100vh;
   overflow: hidden;
-  padding-top: 80px;
+  padding: 80px 4% 0;
 }
 
 /* Video */
@@ -1469,6 +1468,7 @@ body {
   font-size: 0.95rem;
   line-height: 1.6;
   color: rgba(0, 0, 0, 0.7);
+  display: none;
   margin: 0;
   text-align: right;
   padding-top: 4px;
@@ -1520,6 +1520,12 @@ body {
 
 .product-section__image-inner.image-zoomed {
   transform: scale(1.05);
+}
+
+.product-section__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .product-section__image-label {
@@ -1715,7 +1721,7 @@ body {
 /* Desktop Products */
 @media (min-width: 769px) {
   .products-hero-sticky {
-    padding: 120px 48px 24px;
+    padding: 120px 4% 24px;
   }
 
   .products-hero-title-row {
@@ -1725,6 +1731,10 @@ body {
   .products-hero-bottom {
     grid-template-columns: 1fr 1fr;
     gap: 48px;
+  }
+
+  .products-hero-bottom__text {
+    display: block;
   }
 
   .product-section {
@@ -1787,7 +1797,7 @@ body {
   top: 0;
   height: 100vh;
   background: #fff;
-  padding: 100px 24px 24px;
+  padding: 100px 4% 24px;
   display: flex;
   flex-direction: column;
 }
@@ -1807,10 +1817,10 @@ body {
 
 .about-hero-title {
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 8vw, 6rem);
+  font-size: clamp(1.1rem, 4.5vw, 6rem);
   font-weight: 800;
   text-transform: uppercase;
-  line-height: 0.85;
+  line-height: 0.9;
   letter-spacing: -0.02em;
   color: var(--green-deep);
   margin: 0;
@@ -1869,6 +1879,7 @@ body {
 .about-hero-text {
   font-family: var(--font-body);
   font-size: 0.95rem;
+  display: none;
   line-height: 1.6;
   color: rgba(0, 0, 0, 0.7);
   margin: 0;
@@ -2400,7 +2411,7 @@ body {
 /* Desktop About */
 @media (min-width: 769px) {
   .about-hero-sticky {
-    padding: 120px 48px 24px;
+    padding: 120px 4% 24px;
   }
 
   .about-hero-title-row {
@@ -2414,6 +2425,10 @@ body {
   .about-hero-bottom {
     grid-template-columns: 1fr 1fr;
     gap: 48px;
+  }
+
+  .about-hero-text {
+    display: block;
   }
 
   .about-hero-cta-col {

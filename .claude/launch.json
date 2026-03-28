@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "dev",
+      "name": "nefuen-dev",
       "runtimeExecutable": "/bin/bash",
-      "runtimeArgs": ["-c", "export PATH=\"$HOME/.nvm/versions/node/v22.22.2/bin:$PATH\" && npm run dev"],
-      "port": 5173
+      "runtimeArgs": ["-c", "cd '/c/Users/ggoyc/OneDrive/Dev/Nefuen-Trading-Web' && export PATH=\"$HOME/.nvm/versions/node/v22.22.2/bin:$PATH\" && npm run dev -- --port 5174"],
+      "port": 5174
     }
   ]
 }

@@ -8,11 +8,13 @@ function ProductSection({
   title,
   subtitle,
   description,
+  image,
   reverse = false,
 }: {
   title: string
   subtitle: string
   description: string
+  image?: string
   reverse?: boolean
 }) {
   const [isHovered, setIsHovered] = useState(false)
@@ -20,14 +22,18 @@ function ProductSection({
 
   return (
     <div className={`product-section ${reverse ? 'product-section--reverse' : ''}`}>
-      {/* Image placeholder */}
+      {/* Image */}
       <div
         className="product-section__image"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         <div className={`product-section__image-inner ${isHovered ? 'image-zoomed' : ''}`}>
-          <span className="product-section__image-label">{title}</span>
+          {image ? (
+            <img src={image} alt={title} className="product-section__img" />
+          ) : (
+            <span className="product-section__image-label">{title}</span>
+          )}
         </div>
       </div>
 
@@ -106,22 +112,26 @@ export default function Products() {
           title={t('products.item.inshell.name')}
           subtitle={t('products.grid.label')}
           description={t('products.item.inshell.desc')}
+          image="/inshell.webp"
         />
         <ProductSection
           title={t('products.item.shelled.name')}
           subtitle={t('products.grid.label')}
           description={t('products.item.shelled.desc')}
+          image="/kernell.webp"
           reverse
         />
         <ProductSection
           title={t('products.item.blanched.name')}
           subtitle={t('products.grid.label')}
           description={t('products.item.blanched.desc')}
+          image="/blanched.webp"
         />
         <ProductSection
           title={t('products.item.roasted.name')}
           subtitle={t('products.grid.label')}
           description={t('products.item.roasted.desc')}
+          image="/valor.webp"
           reverse
         />
       </section>
