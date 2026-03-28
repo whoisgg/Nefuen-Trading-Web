@@ -101,16 +101,8 @@ export default function AboutUs() {
       </section>
 
       {/* Parallax Quote */}
-      <section
-        className="about-parallax"
-        style={{
-          backgroundImage: "url('/hazelnutfield.png')",
-          backgroundAttachment: "fixed",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
+      <section className="about-parallax">
+        <div className="about-parallax-bg-img" />
         <div className="about-parallax-overlay" />
         <div className="about-parallax-content">
           <p className="about-parallax-quote">

@@ -1931,6 +1931,18 @@ body {
 .about-parallax {
   position: relative;
   height: 70vh;
+  overflow: hidden;
+}
+
+.about-parallax-bg-img {
+  position: absolute;
+  inset: 0;
+  background-image: url('/hazelnutfield.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  z-index: 0;
 }
 
 .about-parallax-overlay {
@@ -2419,6 +2431,10 @@ body {
 
   .about-parallax {
     height: 80vh;
+  }
+
+  .about-parallax-bg-img {
+    background-attachment: fixed;
   }
 
   .about-mv-section {
