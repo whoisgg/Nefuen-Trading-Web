@@ -6,13 +6,11 @@ import { useTranslation } from '../i18n/LanguageContext'
 
 function ProductSection({
   title,
-  subtitle,
   description,
   image,
   reverse = false,
 }: {
   title: string
-  subtitle: string
   description: string
   image?: string
   reverse?: boolean
@@ -46,12 +44,6 @@ function ProductSection({
         >
           {title}
         </h2>
-        <h3
-          className="product-section__subtitle"
-          onMouseEnter={() => setIsHovered(false)}
-        >
-          {subtitle}
-        </h3>
         <p
           className="product-section__desc"
           onMouseEnter={() => setIsHovered(false)}
@@ -110,30 +102,52 @@ export default function Products() {
       <section>
         <ProductSection
           title={t('products.item.inshell.name')}
-          subtitle={t('products.grid.label')}
+
           description={t('products.item.inshell.desc')}
           image="/inshell.webp"
         />
         <ProductSection
           title={t('products.item.shelled.name')}
-          subtitle={t('products.grid.label')}
+
           description={t('products.item.shelled.desc')}
           image="/kernell.webp"
           reverse
         />
         <ProductSection
           title={t('products.item.blanched.name')}
-          subtitle={t('products.grid.label')}
+
           description={t('products.item.blanched.desc')}
           image="/blanched.webp"
         />
         <ProductSection
           title={t('products.item.roasted.name')}
-          subtitle={t('products.grid.label')}
+
           description={t('products.item.roasted.desc')}
           image="/valor2.webp"
           reverse
         />
+      </section>
+
+      {/* Certifications Section */}
+      <section className="products-cert">
+        <div className="products-cert__inner">
+          <div className="products-cert__text">
+            <span className="products-cert__label">{t('products.cert.label')}</span>
+            <h2 className="products-cert__title">{t('products.cert.title')}</h2>
+            <p className="products-cert__subtitle">{t('products.cert.subtitle')}</p>
+          </div>
+          <div className="products-cert__logos">
+            <a href="https://www.brcgs.com" target="_blank" rel="noopener noreferrer">
+              <img src="/brc-food.png" alt="BRC Food Certificated" />
+            </a>
+            <a href="https://www.brcgs.com/our-standards/food-safety" target="_blank" rel="noopener noreferrer">
+              <img src="/brcgs-food-safety.png" alt="BRCGS Food Safety Certificated" className="cert-brcgs" />
+            </a>
+            <a href="https://www.sedex.com/solutions/smeta-audit" target="_blank" rel="noopener noreferrer">
+              <img src="/smeta.png" alt="SMETA 4-Pillars" />
+            </a>
+          </div>
+        </div>
       </section>
 
       {/* CTA Section */}

@@ -68,7 +68,15 @@
 
   "products.cert.label": "CERTIFICATIONS",
   "products.cert.title": "QUALITY GUARANTEED",
-  "products.cert.subtitle": "BRCGS Food Safety certified processes. SMETA 4-Pillars ethical compliance. Full traceability from orchard to destination.",
+  "products.cert.subtitle": "At Nefuen Trading, excellence and commitment to our clients and collaborators are the pillar of our operations. We hold international certifications that validate the quality of our processes and ethical conduct.",
+  "products.cert.brcgs.title": "BRCGS Global Standard for Food Safety",
+  "products.cert.brcgs.body": "This certification guarantees that our drying, calibration, cracking and selection processes meet the strictest international safety and quality standards.",
+  "products.cert.smeta.title": "SMETA 4-Pillars",
+  "products.cert.smeta.body": "We operate under the world's most rigorous ethical audit model, evaluating four fundamental pillars:",
+  "products.cert.smeta.labor": "Labor Standards: We guarantee a fair work environment, with freely chosen employment and legal wages.",
+  "products.cert.smeta.health": "Health & Safety: We ensure safe and hygienic working conditions for our entire team.",
+  "products.cert.smeta.environment": "Environment: We actively monitor and mitigate our environmental impact, with clear goals for optimizing resources such as water and energy.",
+  "products.cert.smeta.ethics": "Business Ethics: We have strict anti-corruption and anti-bribery policies, operating with full transparency and legal compliance.",
 
   "products.markets.label": "OUR MARKETS",
   "products.markets.title": "GLOBAL REACH",

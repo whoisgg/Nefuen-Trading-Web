@@ -68,7 +68,15 @@
 
   "products.cert.label": "CERTIFICACIONES",
   "products.cert.title": "CALIDAD GARANTIZADA",
-  "products.cert.subtitle": "Procesos certificados BRCGS Food Safety. Cumplimiento ético SMETA 4-Pilares. Trazabilidad completa desde el huerto hasta destino.",
+  "products.cert.subtitle": "En Nefuen Trading, la excelencia y el compromiso con nuestros clientes y colaboradores son el pilar de nuestras operaciones. Contamos con certificaciones internacionales que avalan la calidad de nuestros procesos y nuestro comportamiento ético.",
+  "products.cert.brcgs.title": "BRCGS Global Standard for Food Safety",
+  "products.cert.brcgs.body": "Esta certificación garantiza que nuestros procesos de secado, calibrado, partido y selección de avellanas cumplen con los más estrictos estándares de seguridad y calidad exigidos por los mercados internacionales.",
+  "products.cert.smeta.title": "SMETA 4-Pilares",
+  "products.cert.smeta.body": "Operamos bajo el modelo de auditoría ética más riguroso del mundo, evaluando cuatro pilares fundamentales:",
+  "products.cert.smeta.labor": "Estándares Laborales: Garantizamos un entorno de trabajo justo, con empleo libremente elegido y salarios legales.",
+  "products.cert.smeta.health": "Salud y Seguridad: Aseguramos condiciones de trabajo seguras e higiénicas para todo nuestro equipo.",
+  "products.cert.smeta.environment": "Medio Ambiente: Monitoreamos y mitigamos activamente nuestro impacto ambiental, con metas claras de optimización de recursos como agua y energía.",
+  "products.cert.smeta.ethics": "Ética Empresarial: Contamos con políticas estrictas contra la corrupción y el soborno, operando con total transparencia y cumplimiento legal.",
 
   "products.markets.label": "NUESTROS MERCADOS",
   "products.markets.title": "ALCANCE GLOBAL",

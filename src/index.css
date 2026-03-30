@@ -1511,13 +1511,7 @@ body {
   min-height: 50vh;
   display: flex;
   flex-direction: column;
-  padding: 0 2rem;
-}
-
-@media (max-width: 768px) {
-  .product-section {
-    padding: 0 1.25rem;
-  }
+  padding: 0 4%;
 }
 
 .product-section--reverse {
@@ -1566,7 +1560,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 32px 24px;
+  padding: 32px 0;
 }
 
 .product-section__title {
@@ -1687,9 +1681,107 @@ body {
   transform: translateX(3px);
 }
 
+/* Products Certifications section */
+.products-cert {
+  padding: 80px 4%;
+  background: #fff;
+  color: #111;
+}
+
+.products-cert__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.products-cert__text {
+  flex: 1;
+}
+
+.products-cert__label {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--green-accent);
+  margin-bottom: 16px;
+}
+
+.products-cert__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin: 0 0 16px;
+  color: var(--green-brand);
+}
+
+.products-cert__subtitle {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  color: rgba(0, 0, 0, 0.55);
+  line-height: 1.7;
+  max-width: 700px;
+  margin: 0 0 48px;
+}
+
+.products-cert__logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-shrink: 0;
+}
+
+.products-cert__logos a {
+  display: block;
+  transition: opacity 0.2s ease;
+}
+
+.products-cert__logos a:hover {
+  opacity: 0.7;
+}
+
+.products-cert__logos img {
+  height: 100px;
+  width: auto;
+  opacity: 0.9;
+}
+
+.products-cert__logos img.cert-brcgs {
+  height: 80px;
+}
+
+@media (min-width: 769px) {
+  .products-cert {
+    padding: 120px 4%;
+  }
+
+  .products-cert__inner {
+    flex-direction: row;
+    align-items: center;
+    gap: 64px;
+  }
+
+  .products-cert__text {
+    flex: 1;
+  }
+
+  .products-cert__logos {
+    flex: 1;
+  }
+
+  .products-cert__subtitle {
+    margin-bottom: 0;
+  }
+}
+
 /* Products CTA section */
 .products-cta {
-  padding: 80px 2rem;
+  padding: 80px 4%;
   background: #1a1a1a;
   color: #fff;
 }
@@ -1777,15 +1869,15 @@ body {
 
   .product-section__content {
     width: 50%;
-    padding: 48px 48px 48px 64px;
+    padding: 48px 0 48px 48px;
   }
 
   .product-section--reverse .product-section__content {
-    padding: 48px 64px 48px 48px;
+    padding: 48px 48px 48px 0;
   }
 
   .products-cta {
-    padding: 120px 48px;
+    padding: 120px 4%;
   }
 }
 
