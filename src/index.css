@@ -1105,8 +1105,8 @@ body {
 }
 
 .gallery-item-wrapper {
-  height: 100vh;
-  height: 100dvh;
+  height: 70vh;
+  height: 70dvh;
   width: 100%;
   display: flex;
   align-items: center;
@@ -1123,6 +1123,7 @@ body {
 
 .gallery-item-wrapper.align-right {
   justify-content: flex-end;
+  padding-top: 12vh;
 }
 
 @media (max-width: 1024px) {

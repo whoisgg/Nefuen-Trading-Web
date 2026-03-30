@@ -6,7 +6,6 @@ const ITEMS = [
   { label: '02', key: '02', bg: '#316838' },
   { label: '03', key: '03', bg: '#388E3C' },
   { label: '04', key: '04', bg: '#7CB342' },
-  { label: '05', key: '05', bg: '#558B2F' },
 ]
 
 export default function FrameSequence() {
@@ -42,11 +41,16 @@ export default function FrameSequence() {
             <div
               className="content"
               style={{
-                maxWidth: '480px',
+                width: '480px',
+                maxWidth: '85vw',
+                height: '320px',
                 backgroundColor: item.bg,
                 padding: '50px',
                 borderRadius: '24px',
                 boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
+                display: 'flex',
+                flexDirection: 'column' as const,
+                justifyContent: 'center',
               }}
             >
               <p className="frame-text-label" style={{ color: 'rgba(255,255,255,0.6)', marginBottom: '16px', fontWeight: 800 }}>{item.label}</p>
