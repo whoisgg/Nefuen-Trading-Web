@@ -38,6 +38,7 @@ export default function Navbar({ visible = true }: NavbarProps) {
   if (!visible) return null
 
   const navItems = [
+    { label: t('nav.inicio'), to: '/' },
     { label: t('nav.nosotros'), to: '/aboutus' },
     { label: t('nav.productos'), to: '/products' },
     { label: t('nav.contacto'), to: '/contact' },

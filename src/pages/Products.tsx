@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import ArrowCTA from '../components/ArrowCTA'
 import { useTranslation } from '../i18n/LanguageContext'
@@ -151,12 +152,14 @@ export default function Products() {
       </section>
 
       {/* CTA Section */}
-      <section className="products-cta">
-        <div className="products-cta__inner">
+      <section className="about-cta-section">
+        <div className="about-cta-inner">
           <span className="products-cta__label">{t('products.cta.label')}</span>
-          <h2 className="products-cta__title">{t('products.cta.title')}</h2>
-          <p className="products-cta__subtitle">{t('products.cta.subtitle')}</p>
-          <ArrowCTA label={t('products.cta.button')} to="/contact" />
+          <h2 className="about-cta-title">{t('products.cta.title')}</h2>
+          <p className="about-cta-subtitle">{t('products.cta.subtitle')}</p>
+          <Link to="/contact" className="about-cta-button">
+            {t('products.cta.button')}
+          </Link>
         </div>
       </section>
     </div>

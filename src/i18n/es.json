@@ -1,11 +1,12 @@
 {
+  "nav.inicio": "Inicio",
   "nav.nosotros": "Nosotros",
   "nav.productos": "Productos",
   "nav.contacto": "Contacto",
 
   "hero.title": "NEFUEN TRADING",
   "hero.subtitle": "AVELLANOS EUROPEOS DE LA PATAGONIA NORTE",
-  "hero.cta": "NUESTROS SERVICIOS",
+  "hero.cta": "CONTÁCTANOS",
 
   "services.label": "LO QUE HACEMOS",
   "services.title": "DE LA GENÉTICA AL MERCADO",

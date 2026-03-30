@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Canvas } from '@react-three/fiber'
 import Scene from '../components/Scene'
 import FrameSequence from '../components/FrameSequence'
@@ -21,6 +22,7 @@ const SECTION_PROGRESS: Record<number, number> = {
 
 export default function Home() {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const [showUI, setShowUI] = useState(false)
   const [sceneLoaded, setSceneLoaded] = useState(false)
   const [activeSection, setActiveSection] = useState(0)
@@ -339,7 +341,7 @@ export default function Home() {
             <div className="hero-content reveal-text">
               <h1>{t('hero.title')}</h1>
               <p className="description">{t('hero.subtitle')}</p>
-              <button className="cta-button" onClick={() => goToSection(1)}>{t('hero.cta')}</button>
+              <button className="cta-button" onClick={() => navigate('/contact')}>{t('hero.cta')}</button>
             </div>
           </div>
         </section>

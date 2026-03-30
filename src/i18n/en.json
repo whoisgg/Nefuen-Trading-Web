@@ -1,11 +1,12 @@
 {
+  "nav.inicio": "Home",
   "nav.nosotros": "About Us",
   "nav.productos": "Products",
   "nav.contacto": "Contact",
 
   "hero.title": "NEFUEN TRADING",
   "hero.subtitle": "HAZELNUTS FROM NORTH PATAGONIA",
-  "hero.cta": "OUR SERVICES",
+  "hero.cta": "CONTACT US",
 
   "services.label": "WHAT WE DO",
   "services.title": "FROM GENETICS TO MARKET",
