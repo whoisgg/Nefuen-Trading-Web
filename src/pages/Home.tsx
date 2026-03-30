@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { Canvas } from '@react-three/fiber'
 import Scene from '../components/Scene'
 import FrameSequence from '../components/FrameSequence'
+import MarketsSection from '../components/MarketsSection'
 import CanvasErrorBoundary from '../components/CanvasErrorBoundary'
 import Navbar from '../components/Navbar'
 import { useTranslation } from '../i18n/LanguageContext'
@@ -42,6 +43,15 @@ export default function Home() {
     isAnimating.current = true
     currentSection.current = index
     setActiveSection(index)
+
+    if (index === 2) {
+      setTimeout(() => {
+        const sc = document.querySelector('.markets-scroll-container')
+        if (sc) {
+          sc.scrollLeft = prevIndex === 3 ? sc.scrollWidth : 0
+        }
+      }, 50)
+    }
 
     if (index === 3) {
       setTimeout(() => {
@@ -133,87 +143,100 @@ export default function Home() {
       else goToSection(currentSection.current - 1)
     }
 
-    const handleWheel = (e: WheelEvent) => {
-      if (currentSection.current === 3) {
-        const scrollContainer = document.querySelector('.gallery-scroll-container')
-        if (scrollContainer) {
-          const { scrollTop, scrollHeight, clientHeight } = scrollContainer
-          const isAtBottom = Math.abs((scrollTop + clientHeight) - scrollHeight) <= 2
-          const isAtTop = scrollTop <= 2
-          // Not at boundary — allow native gallery scroll, reset flag
-          if (e.deltaY > 0 && !isAtBottom) { galleryBoundaryAt.current = 0; return }
-          if (e.deltaY < 0 && !isAtTop) { galleryBoundaryAt.current = 0; return }
-          // At boundary — absorb scrolls for 500ms then allow transition
-          const now = Date.now()
-          if (galleryBoundaryAt.current === 0) galleryBoundaryAt.current = now
-          if (now - galleryBoundaryAt.current < 500) { e.preventDefault(); return }
-          galleryBoundaryAt.current = 0
+    const getScrollContainer = (): Element | null => {
+      if (currentSection.current === 2) return document.querySelector('.markets-scroll-container')
+      if (currentSection.current === 3) return document.querySelector('.gallery-scroll-container')
+      return null
+    }
+
+    const isHorizontalScroll = () => currentSection.current === 2
+
+    const getScrollBounds = (sc: Element) => {
+      if (isHorizontalScroll()) {
+        const { scrollLeft, scrollWidth, clientWidth } = sc
+        return {
+          isAtStart: scrollLeft <= 2,
+          isAtEnd: Math.abs((scrollLeft + clientWidth) - scrollWidth) <= 2,
         }
+      }
+      const { scrollTop, scrollHeight, clientHeight } = sc
+      return {
+        isAtStart: scrollTop <= 2,
+        isAtEnd: Math.abs((scrollTop + clientHeight) - scrollHeight) <= 2,
+      }
+    }
+
+    const handleWheel = (e: WheelEvent) => {
+      const scrollContainer = getScrollContainer()
+      if (scrollContainer) {
+        // For horizontal markets section, convert vertical wheel to horizontal scroll
+        if (isHorizontalScroll()) {
+          scrollContainer.scrollLeft += e.deltaY
+        }
+        const { isAtStart, isAtEnd } = getScrollBounds(scrollContainer)
+        if (e.deltaY > 0 && !isAtEnd) { galleryBoundaryAt.current = 0; return }
+        if (e.deltaY < 0 && !isAtStart) { galleryBoundaryAt.current = 0; return }
+        const now = Date.now()
+        if (galleryBoundaryAt.current === 0) galleryBoundaryAt.current = now
+        if (now - galleryBoundaryAt.current < 500) { e.preventDefault(); return }
+        galleryBoundaryAt.current = 0
       }
       e.preventDefault()
       if (e.deltaY > 0) handleScroll('down')
       else if (e.deltaY < 0) handleScroll('up')
     }
 
+    const isScrollSection = () => currentSection.current === 2 || currentSection.current === 3
+
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0].clientY
       touchCurrentY = touchStartY
       wasAtBoundaryOnStart = false
-      if (currentSection.current === 3) {
-        const sc = document.querySelector('.gallery-scroll-container')
+      if (isScrollSection()) {
+        const sc = getScrollContainer()
         if (sc) {
-          const { scrollTop, scrollHeight, clientHeight } = sc
-          const atTop = scrollTop <= 5
-          const atBottom = (scrollTop + clientHeight) >= (scrollHeight - 5)
-          wasAtBoundaryOnStart = atTop || atBottom
+          const { isAtStart, isAtEnd } = getScrollBounds(sc)
+          wasAtBoundaryOnStart = isAtStart || isAtEnd
         }
       }
     }
 
     const handleTouchMove = (e: TouchEvent) => {
       touchCurrentY = e.touches[0].clientY
-      if (currentSection.current !== 3) {
+      if (!isScrollSection()) {
         if (e.cancelable) e.preventDefault()
       } else {
-        const scrollContainer = document.querySelector('.gallery-scroll-container')
+        const scrollContainer = getScrollContainer()
         if (!scrollContainer) { if (e.cancelable) e.preventDefault(); return }
-        const { scrollTop, scrollHeight, clientHeight } = scrollContainer
+        const { isAtStart, isAtEnd } = getScrollBounds(scrollContainer)
         const delta = touchStartY - touchCurrentY
-        const isAtTop = scrollTop <= 2
-        const isAtBottom = Math.abs((scrollTop + clientHeight) - scrollHeight) <= 2
-        if (delta > 0 && isAtBottom) { if (e.cancelable) e.preventDefault() }
-        if (delta < 0 && isAtTop) { if (e.cancelable) e.preventDefault() }
+        if (delta > 0 && isAtEnd) { if (e.cancelable) e.preventDefault() }
+        if (delta < 0 && isAtStart) { if (e.cancelable) e.preventDefault() }
       }
     }
 
     const handleTouchEnd = () => {
       const deltaY = touchStartY - touchCurrentY
       const threshold = 80
-      if (currentSection.current === 3) {
-        const scrollContainer = document.querySelector('.gallery-scroll-container')
+      if (isScrollSection()) {
+        const scrollContainer = getScrollContainer()
         if (scrollContainer) {
-          const { scrollTop, scrollHeight, clientHeight } = scrollContainer
-          const isAtTop = scrollTop <= 5
-          const isAtBottom = (scrollTop + clientHeight) >= (scrollHeight - 5)
-          // Not at boundary at end — stay in gallery
-          if (deltaY > threshold && !isAtBottom) { galleryBoundaryAt.current = 0; return }
-          if (deltaY < -threshold && !isAtTop) { galleryBoundaryAt.current = 0; return }
-          // Must have been at boundary BEFORE this swipe started
-          // This prevents scroll-to-last-card from auto-transitioning
+          const { isAtStart, isAtEnd } = getScrollBounds(scrollContainer)
+          if (deltaY > threshold && !isAtEnd) { galleryBoundaryAt.current = 0; return }
+          if (deltaY < -threshold && !isAtStart) { galleryBoundaryAt.current = 0; return }
           if (!wasAtBoundaryOnStart) {
             return
           }
-          // At boundary and was at boundary on start — allow transition
-          if ((deltaY > threshold && isAtBottom) || (deltaY < -threshold && isAtTop)) {
+          if ((deltaY > threshold && isAtEnd) || (deltaY < -threshold && isAtStart)) {
             // pass through to handleScroll below
           } else {
             return
           }
         }
       }
-      const fromGallery = currentSection.current === 3 && wasAtBoundaryOnStart
-      if (deltaY > threshold) handleScroll('down', fromGallery)
-      else if (deltaY < -threshold) handleScroll('up', fromGallery)
+      const fromScrollSection = isScrollSection() && wasAtBoundaryOnStart
+      if (deltaY > threshold) handleScroll('down', fromScrollSection)
+      else if (deltaY < -threshold) handleScroll('up', fromScrollSection)
     }
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -326,14 +349,7 @@ export default function Home() {
         </section>
 
         <section className="fullpage-section" ref={(el) => addSectionRef(el, 2)}>
-          <div className="transition-overlay">
-            <div className="transition-content reveal-text">
-              <p className="transition-label">{t('transition.label')}</p>
-              <h2 className="transition-heading" style={{ whiteSpace: 'pre-line' }}>{t('transition.title')}</h2>
-              <p className="transition-body">{t('transition.body')}</p>
-              <button className="cta-button" onClick={() => goToSection(3)}>{t('transition.cta')}</button>
-            </div>
-          </div>
+          <MarketsSection />
         </section>
 
         <section className="fullpage-section" ref={(el) => addSectionRef(el, 3)}>
