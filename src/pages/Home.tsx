@@ -368,8 +368,8 @@ export default function Home() {
           <div className="section-content bottom-center">
             <div className="content reveal-text">
               <h2>{t('final.title')}</h2>
-              <p>{t('final.body')}</p>
-              <button className="cta-button" onClick={() => goToSection(0)}>{t('final.cta')}</button>
+              <p style={{ whiteSpace: 'pre-line' }}>{t('final.body')}</p>
+              <button className="cta-button" onClick={() => navigate('/contact')}>{t('final.cta')}</button>
             </div>
           </div>
         </section>
