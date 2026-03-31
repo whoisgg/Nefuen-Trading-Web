@@ -372,6 +372,14 @@ export default function Home() {
               <button className="cta-button" onClick={() => navigate('/contact')}>{t('final.cta')}</button>
             </div>
           </div>
+          <p className="copyright-text">&copy; 2026 Nefuen Trading</p>
+          <div className="footer-links">
+            <a href="/privacy">Privacy</a>
+            <span>&middot;</span>
+            <a href="/terms">Terms</a>
+            <span>&middot;</span>
+            <a href="/cookies">Cookies</a>
+          </div>
         </section>
       </div>
     </>

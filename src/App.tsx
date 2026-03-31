@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import Products from './pages/Products'
 import Contact from './pages/Contact'
 import AboutUs from './pages/AboutUs'
+import LegalPage from './pages/LegalPage'
 import './index.css'
 
 function App() {
@@ -20,6 +21,9 @@ function App() {
       <Route path="/aboutus" element={<AboutUs />} />
       <Route path="/products" element={<Products />} />
       <Route path="/contact" element={<Contact />} />
+      <Route path="/privacy" element={<LegalPage />} />
+      <Route path="/terms" element={<LegalPage />} />
+      <Route path="/cookies" element={<LegalPage />} />
     </Routes>
   )
 }

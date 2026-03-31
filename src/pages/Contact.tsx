@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Navbar from '../components/Navbar'
+import SiteFooter from '../components/SiteFooter'
 
 declare global {
   interface Window {
@@ -208,6 +209,14 @@ export default function Contact() {
 
           </div>
         </div>
+      </div>
+      <p className="copyright-text">&copy; 2026 Nefuen Trading</p>
+      <div className="footer-links">
+        <a href="/privacy">Privacy</a>
+        <span>&middot;</span>
+        <a href="/terms">Terms</a>
+        <span>&middot;</span>
+        <a href="/cookies">Cookies</a>
       </div>
     </div>
   )

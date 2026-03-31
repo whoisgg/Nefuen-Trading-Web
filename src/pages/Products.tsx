@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import ArrowCTA from '../components/ArrowCTA'
+import SiteFooter from '../components/SiteFooter'
 import { useTranslation } from '../i18n/LanguageContext'
 
 
@@ -158,6 +159,7 @@ export default function Products() {
             {t('products.cta.button')}
           </Link>
         </div>
+        <SiteFooter />
       </section>
     </div>
   )

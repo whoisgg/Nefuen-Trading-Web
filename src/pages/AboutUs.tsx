@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import ArrowCTA from '../components/ArrowCTA'
+import SiteFooter from '../components/SiteFooter'
 import { useTranslation } from '../i18n/LanguageContext'
 import gsap from 'gsap'
 
@@ -199,6 +200,7 @@ export default function AboutUs() {
             {t('aboutus.cta.button')}
           </Link>
         </div>
+        <SiteFooter />
       </section>
     </div>
   )
