@@ -138,9 +138,6 @@ export default function Products() {
             <p className="products-cert__subtitle">{t('products.cert.subtitle')}</p>
           </div>
           <div className="products-cert__logos">
-            <a href="https://www.brcgs.com" target="_blank" rel="noopener noreferrer">
-              <img src="/brc-food.png" alt="BRC Food Certificated" />
-            </a>
             <a href="https://www.brcgs.com/our-standards/food-safety" target="_blank" rel="noopener noreferrer">
               <img src="/brcgs-food-safety.png" alt="BRCGS Food Safety Certificated" className="cert-brcgs" />
             </a>
