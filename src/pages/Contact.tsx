@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Navbar from '../components/Navbar'
-import SiteFooter from '../components/SiteFooter'
 
 declare global {
   interface Window {
