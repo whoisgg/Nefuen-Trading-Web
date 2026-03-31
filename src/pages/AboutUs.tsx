@@ -8,6 +8,10 @@ import gsap from 'gsap'
 
 const teamMembers = [0, 1, 2, 4, 5] as const
 
+const teamPhotos: Partial<Record<number, string>> = {
+  0: '/jorgemohr.webp',
+}
+
 export default function AboutUs() {
   const { t } = useTranslation()
   const heroContainerRef = useRef<HTMLDivElement>(null)
@@ -135,7 +139,10 @@ export default function AboutUs() {
                   </svg>
                 </div>
                 <div className="team-card-inertia__photo">
-                  <span className="team-card-inertia__initial">{t(`aboutus.team.members.${i}.name`).charAt(0)}</span>
+                  {teamPhotos[i]
+                    ? <img src={teamPhotos[i]} alt={t(`aboutus.team.members.${i}.name`)} className="team-card-inertia__img" />
+                    : <span className="team-card-inertia__initial">{t(`aboutus.team.members.${i}.name`).charAt(0)}</span>
+                  }
                 </div>
               </div>
             ))}
@@ -152,7 +159,10 @@ export default function AboutUs() {
                   </div>
                 </div>
                 <div className="team-card-inertia__photo">
-                  <span className="team-card-inertia__initial">{t(`aboutus.team.members.${i}.name`).charAt(0)}</span>
+                  {teamPhotos[i]
+                    ? <img src={teamPhotos[i]} alt={t(`aboutus.team.members.${i}.name`)} className="team-card-inertia__img" />
+                    : <span className="team-card-inertia__initial">{t(`aboutus.team.members.${i}.name`).charAt(0)}</span>
+                  }
                 </div>
               </div>
             ))}
