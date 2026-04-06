@@ -1703,6 +1703,7 @@ body {
   object-fit: cover;
 }
 
+
 .product-section__image-label {
   font-family: var(--font-heading);
   font-size: 1.2rem;
@@ -2035,6 +2036,38 @@ body {
 
   .products-cta {
     padding: 120px 4%;
+  }
+}
+
+/* Tablet Products — overrides desktop (769px–1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .products-hero-container {
+    height: auto;
+    max-height: none;
+  }
+
+  .products-hero-sticky {
+    position: relative;
+    height: auto;
+    min-height: auto;
+  }
+
+  .product-section {
+    min-height: auto;
+  }
+
+  .product-section__image {
+    min-height: auto;
+    align-self: center;
+    aspect-ratio: 1920 / 1047;
+  }
+
+  .product-section__content {
+    padding: 32px 0 32px 32px;
+  }
+
+  .product-section--reverse .product-section__content {
+    padding: 32px 32px 32px 0;
   }
 }
 

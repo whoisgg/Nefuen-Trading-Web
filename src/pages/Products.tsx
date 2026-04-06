@@ -11,11 +11,13 @@ function ProductSection({
   description,
   image,
   reverse = false,
+  imgClassName = '',
 }: {
   title: string
   description: string
   image?: string
   reverse?: boolean
+  imgClassName?: string
 }) {
   const [isHovered, setIsHovered] = useState(false)
   const { t } = useTranslation()
@@ -30,7 +32,7 @@ function ProductSection({
       >
         <div className={`product-section__image-inner ${isHovered ? 'image-zoomed' : ''}`}>
           {image ? (
-            <img src={image} alt={title} className="product-section__img" />
+            <img src={image} alt={title} className={`product-section__img ${imgClassName}`} />
           ) : (
             <span className="product-section__image-label">{title}</span>
           )}
@@ -125,7 +127,7 @@ export default function Products() {
           title={t('products.item.roasted.name')}
 
           description={t('products.item.roasted.desc')}
-          image="/valor2.webp"
+          image="/landvalor.webp"
           reverse
         />
       </section>
