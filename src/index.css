@@ -2097,6 +2097,13 @@ body {
   position: absolute;
   right: 4%;
   bottom: 1.5rem;
+}
+@media (max-width: 768px) {
+  .hero-scroll-hint {
+    bottom: 7rem;
+  }
+}
+.hero-scroll-hint {
   font-family: var(--font-body);
   font-size: 0.7rem;
   letter-spacing: 0.15em;
