@@ -2093,6 +2093,19 @@ body {
 }
 
 /* Hero */
+.hero-scroll-hint {
+  position: absolute;
+  right: 4%;
+  bottom: 1.5rem;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: #6b6b6b;
+  text-transform: uppercase;
+  pointer-events: none;
+  z-index: 5;
+}
+
 .about-hero-container {
   position: relative;
   height: 200vh;

@@ -70,6 +70,7 @@ export default function AboutUs() {
               </p>
             </div>
           </div>
+          <span className="hero-scroll-hint" aria-hidden="true">(SCROLL DOWN)</span>
         </section>
       </div>
 

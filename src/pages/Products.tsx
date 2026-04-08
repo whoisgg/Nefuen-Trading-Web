@@ -100,6 +100,7 @@ export default function Products() {
             </p>
           </div>
         </div>
+        <span className="hero-scroll-hint" aria-hidden="true">(SCROLL DOWN)</span>
       </section>
 
       {/* Product Sections */}
