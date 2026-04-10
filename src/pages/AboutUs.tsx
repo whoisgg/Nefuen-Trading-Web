@@ -119,8 +119,8 @@ export default function AboutUs() {
         </div>
       </section>
 
-      {/* Team — Inertia-style staggered grid */}
-      <section className="about-team-section">
+      {/* Team — hidden until further notice */}
+      <section className="about-team-section" style={{ display: 'none' }}>
         <div className="about-team-inner">
           <span className="about-label">{t('aboutus.team.label')}</span>
           <h2 className="about-team-title">{t('aboutus.team.title')}</h2>
