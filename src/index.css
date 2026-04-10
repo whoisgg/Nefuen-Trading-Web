@@ -733,6 +733,10 @@ body {
   opacity: 1;
 }
 
+.footer-links-mobile {
+  display: none;
+}
+
 /* Section typography */
 .section-content h2 {
   font-family: var(--font-heading);
@@ -1029,6 +1033,31 @@ body {
   /* BRCGS logo is landscape — reduce to match perceived size of square logos */
   .cert-badges img.cert-brcgs {
     height: 30px;
+  }
+
+  .copyright-text {
+    font-size: 0.75rem;
+  }
+
+  .footer-links {
+    display: none;
+  }
+
+  .footer-links-mobile {
+    display: block;
+    position: absolute;
+    bottom: 16px;
+    right: 5%;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    opacity: 0.5;
+    z-index: 20;
+  }
+
+  .footer-links-mobile a {
+    color: inherit;
+    text-decoration: none;
   }
 
   /* Sections on mobile — text at bottom for right-aligned */
@@ -2697,7 +2726,7 @@ body {
 
 /* CTA */
 .about-cta-section {
-  padding: 80px 24px 20px;
+  padding: 80px 24px 72px;
   background: #1a1a1a;
   color: #fff;
   position: relative;
@@ -3140,16 +3169,46 @@ a.contact-panel__info-item:hover {
   color: rgba(255, 255, 255, 0.7);
 }
 
+.site-footer__links-mobile {
+  display: none;
+}
+
+.site-footer .mobile-br {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .site-footer {
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
     padding-bottom: 8px;
   }
 
+  .site-footer__copyright {
+    text-align: left;
+    font-size: 0.75rem;
+  }
+
+  .site-footer .mobile-br {
+    display: block;
+  }
+
   .site-footer__links {
-    position: static;
-    justify-content: center;
-    margin-top: 8px;
+    display: none;
+  }
+
+  .site-footer__links-mobile {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .site-footer__links-mobile a {
+    color: inherit;
+    text-decoration: none;
   }
 }
 

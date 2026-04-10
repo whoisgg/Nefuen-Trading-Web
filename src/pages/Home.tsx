@@ -375,10 +375,13 @@ export default function Home() {
           <p className="copyright-text">&copy; 2026 Nefuen Trading</p>
           <div className="footer-links">
             <a href="/privacy">Privacy</a>
-            <span>&middot;</span>
+            <span className="footer-links__sep">&middot;</span>
             <a href="/terms">Terms</a>
-            <span>&middot;</span>
+            <span className="footer-links__sep">&middot;</span>
             <a href="/cookies">Cookies</a>
+          </div>
+          <div className="footer-links-mobile">
+            <a href="/terms">Legal</a>
           </div>
         </section>
       </div>
